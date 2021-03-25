@@ -1,0 +1,26 @@
+html{
+    scroll-behavior: smooth;
+}
+@media only screen and(max-width: 768px){
+
+}
+body{
+    font-family: 'Rokkitt', serif;
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+    max-height: 100vh;
+}
+
+.header-section{
+    background-image: url("../images/bgheader.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    max-width: 100%;
+    max-height: 100vh;
+}
+
+.line-section{
+
+}

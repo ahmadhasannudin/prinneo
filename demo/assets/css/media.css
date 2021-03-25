@@ -1,0 +1,332 @@
+/*ipad pro*/
+@media screen and (max-width: 1024px) {
+    header .navbar-light .navbar-nav .nav-link {
+        padding: 5px 18px;
+    }
+    #footernav .nav-item {
+	    margin: 0;
+	    font-size: 14px;
+	}
+    .largenav .nav-link {
+        font-size: 14px;
+    }
+}
+/*ipad*/
+@media screen and (max-width: 768px) {
+    .navbar-dark .navbar-toggler {
+        color: white;
+        margin-right: -10%;
+    }
+    .brand {
+        width: 150px;
+        margin-right:4.5rem;
+    }
+
+    #mobile-icon {
+        font-size: 20px;
+        margin-left: 10px;
+    }
+    .navbar-dark .navbar-toggler {
+        color: white;
+    }
+    .navbar-dark .navbar-toggler:hover {
+        color: #FFFF00;
+    }
+    .largenav .nav-link {
+        padding: 10px 5px;
+    }
+    header .navbar-light .navbar-nav .nav-link {
+        padding: 5px 0px;
+    }
+    .dropdown:hover .dropdown-menu {
+        display: contents;
+    }
+    #video .card {
+	    margin: 0px 20px;
+	}
+    button.play-video {
+        margin-top: 38%;
+        font-size: 85px;
+    }
+    iframe.yt-home {
+        height: 300px;
+    }
+    .judul {
+    	font-size: 22px;
+    }
+    #footernav .nav-item {
+	    margin: 0;
+	    font-size: 10px;
+	}
+	#footer .image-footer {
+        width: 60%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+	}
+    #footer .sosmed {
+        margin-left: auto;
+        margin-right: auto;
+        display: table;
+    }
+    #footer .langganan {
+        margin-left: auto;
+        margin-right: auto;
+        display: table;
+    }
+    #footer .menu-footer {
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+        display: table;
+        padding-bottom: 20px;
+    }
+    #about-footer h4 {
+        display: table;
+        margin-left: auto;
+        margin-right: auto;
+
+    } 
+    #footer .image-transaksi {
+        display: table;
+        margin-left: auto;
+        margin-right: auto;
+        width: 93%;
+    }
+    #footer .menu-footer .btn-warning {
+        width: 100%;
+        margin: 6px 0;
+    }
+    #footer .langganan .btn-warning {
+        margin-top: -15px;
+        margin-left: 8px;
+        padding: 7px;
+    }
+    .copyright {
+        padding: 15px;
+        height: 90px;
+    }
+    #sosmed-footer {
+
+    }
+	#about-footer .af-info {
+		font-size: 16px;
+	}
+	#about-footer a {
+	    font-size: 11px;
+	}
+}
+
+/*mobile*/
+@media screen and (max-width: 575px) {
+    #modal-login {
+        padding: 20px 10px;
+    }
+    button.close.login {
+        margin-top: -80px;
+    }
+    .banner {
+        margin-top: 15px;
+        width: 105%;
+    }
+    #merchandise {
+        margin: 20px;
+    }
+    #merchandise .card {
+        margin-bottom: 15px;
+        margin-right: -5px;
+        margin-left: -5px;
+    }
+    button.btn.daftar {
+        margin-bottom: 60px;
+    }
+    /*navbar custom sendiri*/
+    nav.main {
+        display: none;
+    }
+    nav.mainmobile {
+        display: block;
+    }
+    #flipkart-navbar {
+        display: none;
+    }
+    .navbar-search {
+        color: #818181;
+        font-size: 20px;
+        background-color: transparent;
+        border: none;
+    }
+    .navbar-search:focus {
+        outline: none;
+    }
+    .form-control.flipkart {
+        margin: 15px 0;
+    }
+    .btn-secondary.flipkart {
+        margin: 15px 0;
+    }
+    .row.pencarian-mobile {
+        display: contents;
+    }
+
+    /*navbar mobile*/
+    #nav-mobile {
+        height: 60px;
+    }
+    .navbar-brand {
+        margin-right: 1.5rem;
+        margin-left: 1.5rem;
+        font-size: 1.25rem;
+    }
+    #nav-mobile .navbar-brand {
+        margin: 0 24px;
+        text-align: center;
+    }
+    #nav-mobile .nav-title {
+        font-size: 6px;
+        text-align: center;
+    }
+	#footer {
+		padding-top: 30px;
+	    padding-bottom: 1px;
+	}
+	.copyright {
+	    padding: 15px 0px;
+	    height: 55px;
+	}
+	.copyright p {
+	    text-align: center;
+	}
+    .copyright-user {
+        padding: 15px 0px;
+        height: 55px;
+    }
+    .copyright-user p {
+        text-align: center;
+    }
+
+    #video .card {
+    	margin: 0;
+    }
+    #video #play {
+        height: 350px;
+    }
+    iframe.yt-home {
+        height: 220px;
+    }
+    button.play-video {
+        margin-top: 32%;
+        font-size: 70px;
+    }
+    .judul {
+    	font-size: 28px;
+    }
+
+    /*halaman blog*/
+    #main {
+        padding: 30px 15px;
+    }
+    #banner {
+        padding: 8%;
+        background-position: right;
+    }
+    .title-banner {
+        font-size: 20px;
+        margin-bottom: 0;
+    }
+    .kategori-mobile {
+        margin: 0px 15px;
+    }
+    .judul-artikel {
+        font-size: 20px;
+    }
+    .icon-tags {
+        font-size: 16px;
+        margin-right: 5px;
+    }
+    .isi-tags {
+        font-size: 14px;
+        margin-right: 5px;
+    }
+    .tags-share {
+        margin: 0;
+        height: 70px;
+    }
+    .float-left.tags {
+        margin-left: -12px;
+    }
+    .float-right.share {
+        margin-top: 12px;
+        margin-right: 25%;
+    }
+    .wordwrap {
+        font-size: 12px;
+    }
+
+    /*halaman kontak*/
+    .maps {
+        height: 200px;
+    }
+    .sosmed-kontak {
+        padding-top: 30px;
+    }
+
+    /*halaman daftar*/
+    #register .img-register {
+        width: 50%;
+    }
+    #register .form-register {
+        padding: 30px 15px;
+    }
+    #register .form-register h3{
+        font-size: 24px;
+    }
+    #register .form-register p{
+        font-size: 14px;
+    }
+    #register .icon-register {
+        margin-top: 20px;
+    }
+
+    /*halaman konfirmasi pembayaran*/
+    #form-konfirmasi {
+        padding: 20px 10px;
+    }
+    .btn.btn-secondary.btn-widget {
+        width: 100%;
+    }
+
+    /*halaman profil user*/
+    #profil {
+        margin: 20px;
+        margin-bottom: 40px;
+    }
+    .widget {
+        background-color: transparent;
+    }
+    .dasbor-konten {
+        border: 0;
+    }
+    #profil-banner {
+        display: none;
+    }
+    #profil-detail {
+        padding: 10px 3px;
+    }
+
+    /*halaman detail produk*/
+    .card.deskripsi {
+        margin-left: 0;
+    }
+    .card.deskripsi .breadcrumb {
+        display: none;
+    }
+    .deskripsi-produk .tab-content {
+        margin-bottom: 25px;
+    }
+}
+@media screen and (max-width: 368px) {
+    #nav-mobile .navbar-brand {
+        margin: 0 20px;
+    }
+}
