@@ -14,7 +14,7 @@
           <a href="<?php echo base_url('manage/dasbor'); ?>"><i class="fas fa-tachometer-alt pr-2"></i> Dasboard</a>
         </li>
         <li>
-          <a href="#blogs" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed"><i class="fas fa-newspaper pr-2"></i> Blogs  </a>
+          <a href="#blogs" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed"><i class="fas fa-newspaper pr-2"></i> Blogs </a>
           <ul class="list-unstyled collapse" id="blogs" style="">
             <li>
               <a href="<?php echo base_url('manage/blog_categorys'); ?>"> Kategori Artikel</a>
@@ -22,10 +22,13 @@
             <li>
               <a href="<?php echo base_url('manage/blogs'); ?>"> Artikel </a>
             </li>
+            <li>
+              <a href="<?php echo base_url('manage/aboutUs'); ?>"> About Us</a>
+            </li>
           </ul>
         </li>
         <li>
-          <a href="#products" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed"><i class="fas fa-box-open pr-2"></i> Products  </a>
+          <a href="#products" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed"><i class="fas fa-box-open pr-2"></i> Products </a>
           <ul class="list-unstyled collapse" id="products" style="">
             <li>
               <a href="<?php echo base_url('manage/product_categorys'); ?>"> Kategori Produk </a>
@@ -45,7 +48,7 @@
           <a href="<?php echo base_url('manage/contacts/saran'); ?>"><i class="far fa-comments pr-2"></i> Kritik & Saran</a>
         </li>
         <li>
-          <a href="#transaksi" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed"><i class="fas fa-chart-bar pr-2"></i> Transaksi  </a>
+          <a href="#transaksi" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed"><i class="fas fa-chart-bar pr-2"></i> Transaksi </a>
           <ul class="list-unstyled collapse" id="transaksi" style="">
             <li>
               <a href="<?php echo base_url('manage/orders'); ?>"> Orders </a>
@@ -64,8 +67,8 @@
             </li>
           </ul>
         </li>
-        
-        
+
+
         <li>
           <a href="#users" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed"><i class="fas fa-user-cog pr-2"></i> Users Management </a>
           <ul class="list-unstyled collapse" id="users" style="">
