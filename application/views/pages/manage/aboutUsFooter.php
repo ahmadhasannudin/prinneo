@@ -5,6 +5,9 @@
     $('#form-about-us').submit(function(e) {
         e.preventDefault();
         let attribute = $(this);
+        for (instance in CKEDITOR.instances) {
+            CKEDITOR.instances[instance].updateElement();
+        }
         var isiForm = new FormData($('#form-about-us')[0]); // form data untuk browse file
         // contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
         //     processData: false, // NEEDED, DON'T OMIT THIS
@@ -45,8 +48,8 @@
                                 } else {
                                     Swal.fire({
                                         icon: 'error',
-                                        title: data.message,
-                                        timer: 1000
+                                        title: 'Failed',
+                                        text: data.message,
                                     });
                                 }
                             },
@@ -62,14 +65,14 @@
                                 if (jqXHR.status == '403') {
                                     Swal.fire({
                                         icon: 'error',
-                                        title: 'Terjadi kesalahan saat menghubungkan ke server. Error : ' + textStatus,
-                                        timer: 1000
+                                        title: 'Failed',
+                                        text: 'Terjadi kesalahan saat menghubungkan ke server. Error : ' + textStatus,
                                     });
                                 } else {
                                     Swal.fire({
                                         icon: 'error',
-                                        title: 'Terjadi kesalahan saat menghubungkan ke server. ',
-                                        timer: 1000
+                                        title: 'Failed',
+                                        text: 'Terjadi kesalahan saat menghubungkan ke server. ',
                                     });
                                 }
                             }
