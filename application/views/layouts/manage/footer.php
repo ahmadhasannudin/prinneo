@@ -96,11 +96,32 @@
     window.location.href = JS_siteurl + "manage/popups/modal?popup_id=" + id + "&modal=" + checkbox_value;
   });
 </script>
+
+<!-- load footer current footer if exist -->
 <?php
 if (isset($pageFooter) && !empty($pageFooter)) {
   $this->load->view($pageFooter);
 }
 ?>
+
+<!-- function load image -->
+<script>
+  function readImageURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        $(input).parent().find('.img-thumbnail').attr('src', e.target.result);
+      }
+
+      reader.readAsDataURL(input.files[0]); // convert to base64 string
+    }
+  }
+
+  $('.image-load').change(function() {
+    readImageURL(this);
+  });
+</script>
 <script src="<?= base_url(); ?>vendor/sweetalert/sweetalert2.all.min.js"></script>
 </body>
 

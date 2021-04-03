@@ -1,17 +1,22 @@
 <script>
-    $(document).ready(function() {})
+    $(document).ready(function() {});
+
 
     $('#form-about-us').submit(function(e) {
         e.preventDefault();
         let attribute = $(this);
+        var isiForm = new FormData($('#form-about-us')[0]); // form data untuk browse file
+        // contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+        //     processData: false, // NEEDED, DON'T OMIT THIS
+
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
-            type: 'warning',
+            icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, Request it!',
+            confirmButtonText: 'Yes, Sumbit it!',
             allowOutsideClick: false,
         }).then(function(e) {
             if (e.value === true) {
@@ -24,9 +29,11 @@
                         Swal.showLoading()
                         $.ajax({
                             type: "POST",
-                            data: $('#form-about-us').serialize(),
+                            data: isiForm,
                             url: "<?= base_url(); ?>/manage/aboutUs/update/about_us",
-
+                            processData: false,
+                            contentType: false,
+                            cache: false,
                             success: function(data) {
                                 console.log(data);
                                 if (data.status) {

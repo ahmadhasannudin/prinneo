@@ -22,4 +22,15 @@ class MBlogData extends CI_Model
             $this->db->insert($this->table, $data);
         }
     }
+
+    //get blog by type
+    public function getData($type)
+    {
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->where('type', $type);
+        $this->db->where('is_active', true);
+        $query  = $this->db->get()->row();
+        return $query;
+    }
 }
