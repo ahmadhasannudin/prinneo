@@ -23,6 +23,7 @@ class AboutUs extends CI_Controller
 
         $this->load->view("layouts/manage/wrapper", $data, false);
     }
+
     function update($type)
     {
         if (!$this->input->is_ajax_request()) {
@@ -31,22 +32,18 @@ class AboutUs extends CI_Controller
         $valid = $this->form_validation;
         $valid->set_error_delimiters('', '');
         $valid->set_rules('content', 'content', 'required');
-        $valid->set_rules('image_url_old', 'Image Url Old', 'required');
 
         if ($valid->run() == FALSE) {
             return resp(false,  validation_errors());
         }
 
-        // if ($this->form_validation->run() == false) {
-        //     $errors = validation_errors();
-        //     echo json_encode($errors);
-        // }
-        return;
+
+        $data = $this->input->post();
         $data['type'] = $type;
         // return print_r($valid->run() === false);
         // return print_r($data);
         $this->MBlogData->update($data);
-        // $this->M_blog_categorys->add($data);
+
         return resp(true, 'success');
     }
 }

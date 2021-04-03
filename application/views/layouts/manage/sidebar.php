@@ -25,6 +25,9 @@
             <li>
               <a href="<?php echo base_url('manage/aboutUs'); ?>"> About Us</a>
             </li>
+            <li>
+              <a href="<?php echo base_url('manage/karir'); ?>"> Karir</a>
+            </li>
           </ul>
         </li>
         <li>
