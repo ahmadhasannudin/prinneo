@@ -37,11 +37,15 @@ create table career_applicant
 (
 	career_applicant_id int,
 	career_id int not null,
-	name varchar(255) not null,
+	nama varchar(255) not null,
+	tanggal_lahir date not null,
+	alamat varchar(255) not null,
+	telephone varchar(255) not null,
 	email varchar(255) not null,
-	description text null,
-	created_at datetime default now() not null,
-	is_active bool default true not null
+	status_pekerjaan varchar(255) not null,
+	status_pernikaan varchar(255) not null,
+	surat_lamaran varchar(255) not null,
+	document_lamaran varchar(255) not null
 );
 
 create unique index career_applicant_career_applicant_id_uindex

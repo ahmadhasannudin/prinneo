@@ -121,6 +121,19 @@ if (isset($pageFooter) && !empty($pageFooter)) {
   $('.image-load').change(function() {
     readImageURL(this);
   });
+
+  // function isset useing if (isset(() => status ))
+  function isset(accessor) {
+    try {
+      // Note we're seeing if the returned value of our function is not
+      // undefined or null
+      return accessor() !== undefined && accessor() !== null
+    } catch (e) {
+      // And we're able to catch the Error it would normally throw for
+      // referencing a property of undefined
+      return false
+    }
+  }
 </script>
 <script src="<?= base_url(); ?>vendor/sweetalert/sweetalert2.all.min.js"></script>
 </body>
