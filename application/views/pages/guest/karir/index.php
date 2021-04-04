@@ -12,9 +12,10 @@
 			<p class="karir-title">PELUANG BERGABUNG DENGAN KAMI</p>
 			<div class="table-responsive">
 
-				<table class="table table-striped">
+				<table class="table table-striped" id="table-karir">
 					<thead>
 						<tr>
+							<th width="80px">No</th>
 							<th scope="col">Posisi</th>
 							<th scope="col">Penempatan</th>
 							<th class="d-none d-sm-block" scope="col">Pendidikan</th>
@@ -22,7 +23,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
+						<!-- <tr>
 							<td class="jabatan">Staff Akutansi dan Keuangan</td>
 							<td>Tasikmalaya</td>
 							<td class="d-none d-sm-block">Minimal D3 Ekonomi </td>
@@ -33,7 +34,7 @@
 							<td>D.I. Yogyakarta</td>
 							<td class="d-none d-sm-block">Manajemen bisnis</td>
 							<td><a href="<?php echo base_url() . 'about/dkarir' ?>"><button type="button" class="btn btn-karir btn-sm"><i class="fa fa-search"></i></button></a></td>
-						</tr>
+						</tr> -->
 
 					</tbody>
 				</table>

@@ -43,7 +43,7 @@ class Karir extends CI_Controller
         }
 
         $datatble->order_by('c.career_id', 'DESC');
-        // print_r($datatble);
+
         return $this->output->set_output($datatble->get_datatable());
     }
 

@@ -31,6 +31,12 @@ alter table career
 
 alter table career
     modify career_id int auto_increment;
+	
+alter table career
+	add penempatan varchar(255) not null after description;
+
+alter table career
+	add pendidikan varchar(255) not null after penempatan;
 
 --table career applicant
 create table career_applicant
