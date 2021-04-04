@@ -9,7 +9,7 @@ class Karir extends CI_Controller
         $this->load->model('M_blog_tags');
         $this->load->model('M_blog_categorys');
     }
-    function index()
+    function index($id = null)
     {
         $data  =
             array(
@@ -44,7 +44,35 @@ class Karir extends CI_Controller
                 ->cari_perkolom_where('c.is_active', $this->input->post('is_active'))
                 ->get_datatable()
         );
-        // return resp(true, 'success');
+    }
+
+    // create karir
+    function create()
+    {
+        $data  =
+            array(
+                'title'   =>  'Create Career',
+                'isi'     =>  'pages/manage/karir/form',
+                'pageFooter' => 'pages/manage/karir/formFooter',
+            );
+        $this->load->view("layouts/manage/wrapper", $data, false);
+    }
+
+    // detail karir
+    function detail($id = null)
+    {
+        if ($id == null) {
+            $this->output->set_status_header('404');
+            return show_404();
+        }
+
+        $data  =
+            array(
+                'title'   =>  'Edit Career',
+                'isi'     =>  'pages/manage/karir/form',
+                'pageFooter' => 'pages/manage/karir/formFooter',
+            );
+        $this->load->view("layouts/manage/wrapper", $data, false);
     }
 
     function add()

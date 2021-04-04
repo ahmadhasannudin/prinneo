@@ -8,7 +8,7 @@
 
     </div>
 
-    <button class="btn btn-sm btn-outline-primary float-right mb-4"> <i class="fas fa-plus-circle mr-1"></i> Add New Carrerr</button>
+    <a class="btn btn-sm btn-outline-primary float-right mb-4" href="<?= base_url(); ?>/manage/karir/create/"> <i class="fas fa-plus-circle mr-1"></i> Add New Carrerr</a>
     <div class="table-responsive">
         <select name="search_is_active" class="custom-select custom-select float-right ml-3" style="width: 100px;" id="search_is_active">
             <option value="1">Active</option>
