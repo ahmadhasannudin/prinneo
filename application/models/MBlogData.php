@@ -16,6 +16,8 @@ class MBlogData extends CI_Model
         $q = $this->db->get($this->table);
 
         if ($q->num_rows() > 0) {
+            $this->db->where('type', $data['type']);
+            $this->db->where('is_active', true);
             $this->db->set('content', $data['content']);
             $this->db->update($this->table);
         } else {

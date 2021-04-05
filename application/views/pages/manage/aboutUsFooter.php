@@ -17,7 +17,8 @@
         for (instance in CKEDITOR.instances) {
             CKEDITOR.instances[instance].updateElement();
         }
-        var isiForm = new FormData($('#form-about-us')[0]);
+        var form = $('#form-about-us');
+        isiForm = new FormData(form[0]);
         Swal.fire({
             title: 'Are you sure?',
             text: "Update data",
@@ -39,7 +40,7 @@
                         $.ajax({
                             type: "POST",
                             data: isiForm,
-                            url: "<?= base_url(); ?>/manage/aboutUs/update/about_us",
+                            url: form.attr('action'),
                             processData: false,
                             contentType: false,
                             cache: false,

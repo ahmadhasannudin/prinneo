@@ -169,11 +169,38 @@ class Karir extends CI_Controller
             array(
                 'title'   =>  'Detail Career',
                 'isi'     =>  'pages/manage/karir/detail',
-                'pageFooter' => 'pages/manage/karir/formFooter',
+                'pageFooter' => 'pages/manage/karir/detailFooter',
                 'formActionURL' => base_url() . '/manage/karir/detail/' . $id,
-                'data' => $this->MKarir->getData($id)
+                'data' => $this->MKarir->getData($id),
+                'id' => $id
             );
 
         $this->load->view("layouts/manage/wrapper", $data, false);
+    }
+
+    function dataTableApplicant($id)
+    {
+
+        if (!$this->input->is_ajax_request()) {
+            exit('No direct script access allowed');
+        }
+
+
+        return $this->output->set_output($this->sdatatable->set_tabel('career_applicant c')
+            ->set_kolom("
+            career_applicant_id,
+            career_id,
+            tanggal_lahir,
+            alamat,
+            telephone,
+            email,
+            status_pekerjaan,
+            status_pernikahan,
+            surat_lamaran,
+            document_lamaran,
+            nama")
+            ->cari_perkolom_where('c.career_id', $id)
+            ->order_by('c.nama', 'ASC')
+            ->get_datatable());
     }
 }

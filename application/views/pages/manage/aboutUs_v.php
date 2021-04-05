@@ -1,6 +1,6 @@
 <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h1 class="h2">About Us</h1>
+        <h1 class="h2"><?= $title; ?></h1>
     </div>
     <div class="row my-4">
         <div class="col-12 ">
@@ -11,7 +11,7 @@
                 print_r(validation_errors());
                 echo validation_errors('<div class="alert alert-danger">', '</div>');
                 ?>
-                <form id="form-about-us" onsubmit="return false">
+                <form id="form-about-us" onsubmit="return false" action="<?= $formAction; ?>">
 
                     <!-- <div class="form-group text-center">
                         <img src="<?php echo base_url(); ?>assets/images/img_blogs/<?= isset($data->image_url) ? $data->image_url : '' ?>" alt="<?= isset($data->title) ? $data->title : '' ?>" class="img-thumbnail" />

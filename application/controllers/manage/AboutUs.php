@@ -18,7 +18,8 @@ class AboutUs extends CI_Controller
                 'title'            =>  'Mangement About Us',
                 'isi'              =>  'pages/manage/aboutUs_v',
                 'pageFooter' => 'pages/manage/aboutUsFooter',
-                'data' => $this->MBlogData->getData('about_us')
+                'data' => $this->MBlogData->getData('about_us'),
+                'formAction' => base_url() . '/manage/aboutUs/update/about_us'
             );
 
         $this->load->view("layouts/manage/wrapper", $data, false);

@@ -13,6 +13,7 @@ class About extends CI_Controller
     $this->load->model('M_faqs');
     $this->load->model('MKarir');
     $this->load->model('MCareerApplicant');
+    $this->load->model('MBlogData');
   }
 
   function index()
@@ -27,6 +28,7 @@ class About extends CI_Controller
         'product_categorys'     =>  $product_categorys,
         'product_sub_categorys' =>  $product_sub_categorys,
         'contacts'              =>  $contacts,
+        'data' => $this->MBlogData->getData('about_us'),
       );
     $this->load->view("layouts/guest/wrapper", $data, false);
   }
