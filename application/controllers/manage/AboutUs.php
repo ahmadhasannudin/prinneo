@@ -41,8 +41,6 @@ class AboutUs extends CI_Controller
 
         $data = $this->input->post();
         $data['type'] = $type;
-        // return print_r($valid->run() === false);
-        // return print_r($data);
         $this->MBlogData->update($data);
 
         return resp(true, 'success');
