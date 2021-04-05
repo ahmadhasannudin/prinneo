@@ -31,7 +31,7 @@ alter table career
 
 alter table career
     modify career_id int auto_increment;
-	
+
 alter table career
 	add penempatan varchar(255) not null after description;
 
@@ -49,7 +49,7 @@ create table career_applicant
 	telephone varchar(255) not null,
 	email varchar(255) not null,
 	status_pekerjaan varchar(255) not null,
-	status_pernikaan varchar(255) not null,
+	status_pernikahan varchar(255) not null,
 	surat_lamaran varchar(255) not null,
 	document_lamaran varchar(255) not null
 );

@@ -18,23 +18,22 @@
 				<div class="ajukan-head">AJUKAN APLIKASI</div>
 				<div class="ajukan-form">
 					<p class="form-tittle">Silahkan isi data :</p>
-					<form action="#" enctype="multipart/form-data" method="post" accept-charset="utf-8">
-						<input type="text" class="form-control" name="id_k_karir" value="4" hidden="">
+					<form onsubmit="return false" enctype="multipart/form-data" id="form-applicant" action="<?= $formAction; ?>" accept-charset="utf-8">
 						<div class="form-group">
 							<label>Nama lengkap :</label>
-							<input type="text" class="form-control" name="nama_karir" required>
+							<input type="text" class="form-control" name="nama" required>
 						</div>
 						<div class="form-group">
 							<label>Tanggal lahir :</label>
-							<input type="date" class="form-control" name="tgl_lahir" required>
+							<input type="date" class="form-control" name="tanggal_lahir" required>
 						</div>
 						<div class="form-group">
 							<label>Alamat lengkap :</label>
-							<textarea class="form-control" rows="3" name="alamat_karir" required></textarea>
+							<textarea class="form-control" rows="3" name="alamat" required></textarea>
 						</div>
 						<div class="form-group">
 							<label>Nomor telepon / HP :</label>
-							<input type="number" class="form-control" name="nohp_karir" required>
+							<input type="number" class="form-control" name="telephone" required>
 						</div>
 						<div class="form-group">
 							<label>Email :</label>
@@ -45,22 +44,22 @@
 							<div class="col">
 								<label>Status pekerjaan :</label>
 								<div class="form-check">
-									<input class="form-check-input" type="radio" name="status_pekerjaan" value="1" required>
+									<input class="form-check-input" type="radio" name="status_pekerjaan" value="masih_bekerja" required>
 									<label class="form-check-label" for="#"><i>Masih bekerja</i></label>
 								</div>
 								<div class="form-check">
-									<input class="form-check-input" type="radio" name="status_pekerjaan" value="2">
+									<input class="form-check-input" type="radio" name="status_pekerjaan" value="tidak_sedang_bekerja">
 									<label class="form-check-label" for="#"><i>Tidak sedang bekerja</i></label>
 								</div>
 							</div>
 							<div class="col">
 								<label>Status pernikahan :</label>
 								<div class="form-check">
-									<input class="form-check-input" type="radio" name="status_pernikahan" id="" value="1" required>
+									<input class="form-check-input" type="radio" name="status_pernikahan" id="" value="single" required>
 									<label class="form-check-label" for="#"><i>Single</i></label>
 								</div>
 								<div class="form-check">
-									<input class="form-check-input" type="radio" name="status_pernikahan" id="" value="2">
+									<input class="form-check-input" type="radio" name="status_pernikahan" id="" value="menikah">
 									<label class="form-check-label" for="#"><i>Menikah</i></label>
 								</div><br>
 							</div>
@@ -78,7 +77,7 @@
 									<i class="filesize">Max file size 5 MB</i>
 									<div class="fileUpload btn btn-karir btn-sm">
 										<span><i class="fas fa-plus"></i></span>
-										<input type="file" class="upload" id="surat_lamar" name="surat_lamar1">
+										<input type="file" class="upload" id="surat_lamar" name="">
 									</div>
 								</div>
 							</div>
@@ -95,14 +94,14 @@
 									<i class="filesize">Max file size 1 MB</i>
 									<div class="fileUpload btn btn-karir btn-sm">
 										<span><i class="fas fa-plus"></i></span>
-										<input type="file" id="doc_lamar" class="upload" name="doc_lamar1">
+										<input type="file" id="doc_lamar" class="upload" name="">
 									</div>
 								</div>
 							</div>
 						</div>
 
-						<input id="uploadSurat" placeholder="Pilih File..." name="surat_lamar" hidden="">
-						<input id="uploadDoc" placeholder="Pilih File..." name="doc_lamar" hidden="">
+						<input id="uploadSurat" placeholder="Pilih File..." name="" hidden="">
+						<input id="uploadDoc" placeholder="Pilih File..." name="" hidden="">
 
 
 						<div class="alert-karir" role="alert">Pastikan pengisian dengan benar dan lengkap. Semua data dan dokumen yang kami terima tidak akan dipublikasikan atau dialihkan ke pihak lain.</div>
