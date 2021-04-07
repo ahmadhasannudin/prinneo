@@ -414,10 +414,15 @@
 
 <!-- modal popup -->
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="modal-pupup">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
-      <input type="hidden" name="popup_status" value="<?= !empty($popup) ? 'true' : 'false'; ?>" readonly>
-      <?= !empty($popup) ? '<a name="popup_link" href="' . $popup->popup_link . '" target="_blank"><img style="width: 100% !important;" src="' . base_url('assets/images/img_popups/' . $popup->popup_image) . '" alt="' . $popup->popup_image_meta . '"></a>' : ''; ?>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" name="popup_status" value="<?= !empty($popup) ? 'true' : 'false'; ?>" readonly>
+        <?= !empty($popup) ? '<a name="popup_link" href="' . $popup->popup_link . '" target="_blank"><img style="width: 100% !important;" src="' . base_url('assets/images/img_popups/' . $popup->popup_image) . '" alt="' . $popup->popup_image_meta . '"></a>' : ''; ?>
+      </div>
     </div>
   </div>
 </div>
