@@ -1,6 +1,7 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-class Popups extends CI_Controller{
+defined('BASEPATH') or exit('No direct script access allowed');
+class Popups extends CI_Controller
+{
   public function __construct()
   {
     parent::__construct();
@@ -10,43 +11,39 @@ class Popups extends CI_Controller{
   {
     $popups = $this->M_popups->get_all()->result();
     $data  =
-    array(
-      'title'   =>  'Popups Management - Quick Corp',
-      'isi'     =>  'pages/manage/popups_v',
-      'popups'   =>  $popups
-    );
+      array(
+        'title'   =>  'Popups Management - Quick Corp',
+        'isi'     =>  'pages/manage/popups_v',
+        'popups'   =>  $popups
+      );
     $this->load->view("layouts/manage/wrapper", $data, false);
   }
-  function add(){
+  function add()
+  {
     $valid = $this->form_validation;
     $i  = $this->input;
-    $valid->
-    set_rules(
-      'popup_link',
-      'popup_link',
-      'required',
-      array(
-        'required'  =>  'Title popup harus diisi'
-      )
-    );
-    if ($valid->run()===false)
-    {
-      $data =
-      array(
-        'title'   =>  'Popups Management Add - Quick Corp',
-        'isi'     =>  'pages/manage/popups_t',
+    $valid->set_rules(
+        'popup_link',
+        'popup_link',
+        'required',
+        array(
+          'required'  =>  'Title popup harus diisi'
+        )
       );
+    if ($valid->run() === false) {
+      $data =
+        array(
+          'title'   =>  'Popups Management Add - Quick Corp',
+          'isi'     =>  'pages/manage/popups_t',
+        );
       $this->load->view("layouts/manage/wrapper", $data, false);
-    }
-    else
-    {
+    } else {
       $config['upload_path']          = './assets/images/img_popups/';
       $config['allowed_types']        = 'gif|jpg|png|jpeg';
       $config['max_size']             = 3000;
       $config['encrypt_name']         = TRUE;
       $this->upload->initialize($config);
-      if ( ! $this->upload->do_upload('popup_image'))
-      {
+      if (!$this->upload->do_upload('popup_image')) {
         $this->session->set_flashdata('notifikasi', '
           <div class="alert alert-danger alert-dismissible fade show position-fixed" role="alert" style="position: absolute; top: 0; right: 0; margin:50px;">
           <strong>Gagal Upload!</strong> .
@@ -55,9 +52,7 @@ class Popups extends CI_Controller{
           </button>
           </div>');
         redirect('/manage/popups/add');
-      }
-      else
-      {
+      } else {
         $data = array(
           'popup_link'       =>  $i->post('popup_link'),
           'popup_image'       =>  $this->upload->data('file_name'),
@@ -75,50 +70,44 @@ class Popups extends CI_Controller{
       }
     }
   }
-  function update($popup_id){
+  function update($popup_id)
+  {
     $valid = $this->form_validation;
     $i  = $this->input;
-    $valid->
-    set_rules(
-      'popup_link',
-      'popup_link',
-      'required',
-      array(
-        'required'  =>  'Title popup harus diisi'
-      )
-    );
-    if ($valid->run()===false)
-    {
+    $valid->set_rules(
+        'popup_link',
+        'popup_link',
+        'required',
+        array(
+          'required'  =>  'Title popup harus diisi'
+        )
+      );
+    if ($valid->run() === false) {
       $condition_popups = array(
         'popup_id'  => $popup_id
       );
       $popup_details = $this->M_popups->get_conditions($condition_popups)->row();
       $data =
-      array(
-        'title'   =>  'Popups Management Update - Quick Corp',
-        'isi'     =>  'pages/manage/popups_e',
-        'popup_details'  =>  $popup_details
-      );
+        array(
+          'title'   =>  'Popups Management Update - Quick Corp',
+          'isi'     =>  'pages/manage/popups_e',
+          'popup_details'  =>  $popup_details
+        );
       $this->load->view("layouts/manage/wrapper", $data, false);
-    }
-    else
-    {
+    } else {
       $config['upload_path']          = './assets/images/img_popups/';
       $config['allowed_types']        = 'gif|jpg|png|jpeg';
       $config['max_size']             = 3000;
       $config['encrypt_name']         = TRUE;
       $this->upload->initialize($config);
-      if ( ! $this->upload->do_upload('popup_image'))
-      {
+      if (!$this->upload->do_upload('popup_image')) {
         $data = array(
           'popup_link'       =>  $i->post('popup_link'),
           'popup_image'       =>  $i->post('popup_image_old'),
           'popup_image_meta'  =>  $i->post('popup_image_meta'),
           'popup_id'          =>  $popup_id
         );
-      }
-      else
-      {
+      } else {
         $data = array(
           'popup_link'       =>  $i->post('popup_link'),
           'popup_image'       =>  $this->upload->data('file_name'),
@@ -134,10 +123,11 @@ class Popups extends CI_Controller{
         <span aria-hidden="true">&times;</span>
         </button>
         </div>');
-      redirect('/manage/popups/update/'.$popup_id);
+      redirect('/manage/popups/update/' . $popup_id);
     }
   }
-  function delete($popup_id){
+  function delete($popup_id)
+  {
     $this->M_popups->delete($popup_id);
     $this->session->set_flashdata('notifikasi', '
       <div class="alert alert-success alert-dismissible fade show position-fixed" role="alert" style="position: absolute; top: 0; right: 0; margin:50px;">
@@ -154,8 +144,8 @@ class Popups extends CI_Controller{
       'popup_show'  =>  '0'
     );
     $this->M_popups->reset($data);
-    $popup_id = $this->input->get('popup_id',TRUE);
-    $modal = $this->input->get('modal',TRUE);
+    $popup_id = $this->input->get('popup_id', TRUE);
+    $modal = $this->input->get('modal', TRUE);
     $data = array(
       'popup_id'  =>  $popup_id,
       'popup_show'  =>  $modal

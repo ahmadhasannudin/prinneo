@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Home extends CI_Controller{
+class Home extends CI_Controller
+{
 
   public function __construct()
   {
@@ -13,6 +14,7 @@ class Home extends CI_Controller{
     $this->load->model('M_sliders');
     $this->load->model('M_testimonials');
     $this->load->model('M_blogs');
+    $this->load->model('M_popups');
   }
 
   function index()
@@ -24,16 +26,19 @@ class Home extends CI_Controller{
     $sliders               =  $this->M_sliders->get_all()->result();
     $contacts              =  $this->M_contacts->get_all()->row();
     $data  =
-    array(
-      'title'                 =>  'Home',
-      'isi'                   =>  'pages/guest/v_home',
-      'product_categorys'     =>  $product_categorys,
-      'product_sub_categorys' =>  $product_sub_categorys,
-      'testimonials'          =>  $testimonials,
-      'blog_newest'           =>  $blog_newest,
-      'sliders'               =>  $sliders,
-      'contacts'              =>  $contacts,
-    );
+      array(
+        'title'                 =>  'Home',
+        'isi'                   =>  'pages/guest/v_home',
+        'product_categorys'     =>  $product_categorys,
+        'product_sub_categorys' =>  $product_sub_categorys,
+        'testimonials'          =>  $testimonials,
+        'blog_newest'           =>  $blog_newest,
+        'sliders'               =>  $sliders,
+        'contacts'              =>  $contacts,
+        'pageFooter'            => 'pages/guest/v_home_footer',
+        'popup' => $this->M_popups->get_conditions(['popup_show' => '1'])->row()
+      );
+
     $this->load->view("layouts/guest/wrapper", $data, false);
   }
   function subscribe()
@@ -48,8 +53,7 @@ class Home extends CI_Controller{
         'required'  =>  'Email harus diisi'
       )
     );
-    if ($valid->run()===false)
-    {
+    if ($valid->run() === false) {
 
       $product_categorys     =  $this->M_product_categorys->get_all()->result();
       $product_sub_categorys =  $this->M_product_sub_categorys->get_all()->result();
@@ -58,20 +62,18 @@ class Home extends CI_Controller{
       $sliders               =  $this->M_sliders->get_all()->result();
       $contacts              =  $this->M_contacts->get_all()->row();
       $data  =
-      array(
-        'title'                 =>  'Home',
-        'isi'                   =>  'pages/guest/v_home',
-        'product_categorys'     =>  $product_categorys,
-        'product_sub_categorys' =>  $product_sub_categorys,
-        'testimonials'          =>  $testimonials,
-        'blog_newest'           =>  $blog_newest,
-        'sliders'               =>  $sliders,
-        'contacts'              =>  $contacts,
-      );
+        array(
+          'title'                 =>  'Home',
+          'isi'                   =>  'pages/guest/v_home',
+          'product_categorys'     =>  $product_categorys,
+          'product_sub_categorys' =>  $product_sub_categorys,
+          'testimonials'          =>  $testimonials,
+          'blog_newest'           =>  $blog_newest,
+          'sliders'               =>  $sliders,
+          'contacts'              =>  $contacts,
+        );
       $this->load->view("layouts/guest/wrapper", $data, false);
-    }
-    else
-    {
+    } else {
       $data = array(
         'subscriber_email'      =>  $i->post('subscriber_email'),
       );
@@ -98,14 +100,13 @@ class Home extends CI_Controller{
     $product_sub_categorys =  $this->M_product_sub_categorys->get_all()->result();
     $contacts              =  $this->M_contacts->get_all()->row();
     $data  =
-    array(
-      'title'                 =>  'Halaman Tidak Ditemukan',
-      'isi'                   =>  'pages/guest/v_404',
-      'product_categorys'     =>  $product_categorys,
-      'product_sub_categorys' =>  $product_sub_categorys,
-      'contacts'              =>  $contacts,
-    );
+      array(
+        'title'                 =>  'Halaman Tidak Ditemukan',
+        'isi'                   =>  'pages/guest/v_404',
+        'product_categorys'     =>  $product_categorys,
+        'product_sub_categorys' =>  $product_sub_categorys,
+        'contacts'              =>  $contacts,
+      );
     $this->load->view("layouts/guest/wrapper", $data, false);
   }
-
 }
