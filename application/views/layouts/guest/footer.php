@@ -9,7 +9,7 @@
             <a class="nav-link" href="<?php echo base_url() . 'blogs' ?>">BLOG</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url() ?>">TENTANG KAMI</a>
+            <a class="nav-link" href="<?php echo base_url() . 'about' ?>">TENTANG KAMI</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url() . 'faq' ?>">FAQ</a>
@@ -18,7 +18,7 @@
             <a class="nav-link" href="<?php echo base_url() . 'about/karir' ?>">KARIR</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url() ?>">DROPSHIP</a>
+            <a class="nav-link" href="<?php echo base_url() . 'about/dropship' ?>">DROPSHIP</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url() ?>">KONFIRMASI PEMABAYARAN</a>

@@ -52,15 +52,15 @@ class Login extends CI_Controller
             if ($valid->run() == false) {
                 //init auth facebook token
                 require_once 'vendor/autoload.php';
-               
 
 
 
 
-		 // init configuration google
-                $clientID = '23549795370-8vodrlurb53lau5u4jcr6ekr7kjivef3.apps.googleusercontent.com';
-                $clientSecret = 'bIs0RgN1Mdv3y488iczll6ry';
-                $redirectUri = 'https://prinneo.com/login';
+
+                // init configuration google
+                $clientID = getenv('CLIENT_ID');
+                $clientSecret = getenv('CLIENT_SECRET');
+                $redirectUri = getenv('APP_URL') . '/login';
 
                 // create Client Request to access Google API
                 $client = new Google_Client();
@@ -79,18 +79,18 @@ class Login extends CI_Controller
                 $sliders = $this->M_sliders->get_all()->result();
                 $contacts = $this->M_contacts->get_all()->row();
                 $data =
-                array(
-                    'facebook_oauth' =>  $this->facebook->login_url(),
-                    'google_oauth' => $client->createAuthUrl(),
-                    'isi' => 'pages/guest/v_login',
-                    'title' => 'Login',
-                    'product_categorys' => $product_categorys,
-                    'product_sub_categorys' => $product_sub_categorys,
-                    'sliders' => $sliders,
-                    'contacts' => $contacts,
-                );
+                    array(
+                        'facebook_oauth' =>  $this->facebook->login_url(),
+                        'google_oauth' => $client->createAuthUrl(),
+                        'isi' => 'pages/guest/v_login',
+                        'title' => 'Login',
+                        'product_categorys' => $product_categorys,
+                        'product_sub_categorys' => $product_sub_categorys,
+                        'sliders' => $sliders,
+                        'contacts' => $contacts,
+                    );
                 $this->load->view("layouts/guest/wrapper", $data, false);
-                
+
                 // cek google login
                 require_once 'vendor/autoload.php';
                 // init configuration
@@ -126,7 +126,6 @@ class Login extends CI_Controller
                         $this->session->set_userdata('user_gender', $check_login->user_gender);
                         $this->session->set_userdata('user_role', $check_login->user_role);
                         $this->session->set_userdata('user_photo', $check_login->user_photo);
-                        echo 'aya email';
                         if ($this->session->userdata('user_role') == '1') {
                             $this->session->set_flashdata('notifikasi', '
 		                <div class="alert alert-success alert-dismissible fade show position-fixed" role="alert" style="position: absolute; top: 0; right: 0; margin:50px;">
@@ -147,7 +146,7 @@ class Login extends CI_Controller
                             redirect(site_url('user/dasbor'), 'refresh');
                         }
                     } else {
-                      // now you can use this profile info to create account in your website and make user logged in.
+                        // now you can use this profile info to create account in your website and make user logged in.
                         $data = array(
                             'user_name' => $name,
                             'user_email' => $email,
@@ -193,36 +192,35 @@ class Login extends CI_Controller
                             }
                         }
                     }
-                    
                 }
-              // end cek google login
-                 
-                 
-              //start cek facebook login
-              	
-         
-        // Authenticate user with facebook 
-	        if($this->facebook->is_authenticated()){ 
-	            // Get user info from facebook 
-	            
-	           
-	            $fbUser = $this->facebook->request('get', '/me?fields=id,first_name,last_name,email,link,gender,picture'); 
-	 
-	            // Preparing data for database insertion 
-	             
-	            $first_name_fb    = !empty($fbUser['first_name'])?$fbUser['first_name']:''; 
-	            $last_name_fb    = !empty($fbUser['last_name'])?$fbUser['last_name']:''; 
-	            $gender_fb        = !empty($fbUser['gender'])?$fbUser['gender']:''; 
-	            $picture_fb   = !empty($fbUser['picture']['data']['url'])?$fbUser['picture']['data']['url']:'';
-	            $email_fb = !empty($fbUser['email'])?$fbUser['email']:''; 
-	                    
-	            // Insert or update user data to the database 
-	            $check_login_fb = $this->M_login->login_facebook($email_fb);
-	              
-	            // Check user data insert or update status 
-	            if(!empty($check_login_fb)){ 
-	            	echo 'test';
-	               /* $this->session->set_userdata('email_user', $email_fb );
+                // end cek google login
+
+
+                //start cek facebook login
+
+
+                // Authenticate user with facebook 
+                if ($this->facebook->is_authenticated()) {
+                    // Get user info from facebook 
+
+
+                    $fbUser = $this->facebook->request('get', '/me?fields=id,first_name,last_name,email,link,gender,picture');
+
+                    // Preparing data for database insertion 
+
+                    $first_name_fb    = !empty($fbUser['first_name']) ? $fbUser['first_name'] : '';
+                    $last_name_fb    = !empty($fbUser['last_name']) ? $fbUser['last_name'] : '';
+                    $gender_fb        = !empty($fbUser['gender']) ? $fbUser['gender'] : '';
+                    $picture_fb   = !empty($fbUser['picture']['data']['url']) ? $fbUser['picture']['data']['url'] : '';
+                    $email_fb = !empty($fbUser['email']) ? $fbUser['email'] : '';
+
+                    // Insert or update user data to the database 
+                    $check_login_fb = $this->M_login->login_facebook($email_fb);
+
+                    // Check user data insert or update status 
+                    if (!empty($check_login_fb)) {
+                        echo 'test';
+                        /* $this->session->set_userdata('email_user', $email_fb );
                         $this->session->set_userdata('user_id', $check_login_fb->user_id);
                         $this->session->set_userdata('user_name', $check_login_fb->user_name);
                         $this->session->set_userdata('user_phone', $check_login_fb->user_phone);
@@ -247,9 +245,9 @@ class Login extends CI_Controller
                             </button>
                             </div>');
                             redirect(site_url('user/dasbor'), 'refresh');
-                        } */ 
-	            }
-	           /* else{ 
+                        } */
+                    }
+                    /* else{ 
 	               // now you can use this profile info to create account in your website and make user logged in.
 	                   $data_fb = array(
 	                        'user_name' => $first_name_fb,
@@ -298,19 +296,19 @@ class Login extends CI_Controller
 	                   
 	            } 
 	             */
-	            // Facebook logout URL 
-	            //$data['logoutURL'] = $this->facebook->logout_url(); 
-	        }
-	        //else{ 
-	            // Facebook authentication url 
-	            //$data['authURL'] =  $this->facebook->login_url(); 
-	        //}   	 	
-                 
-                 
-              //end cek facebook login
-                 
-                  
-                 
+                    // Facebook logout URL 
+                    //$data['logoutURL'] = $this->facebook->logout_url(); 
+                }
+                //else{ 
+                // Facebook authentication url 
+                //$data['authURL'] =  $this->facebook->login_url(); 
+                //}   	 	
+
+
+                //end cek facebook login
+
+
+
             } else {
                 $i = $this->input;
                 $email_user = $i->post('user_email');

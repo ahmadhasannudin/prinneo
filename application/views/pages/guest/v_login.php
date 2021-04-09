@@ -1,8 +1,8 @@
 <div id="banner">
   <div class="container">
-    <h2 class="title-banner">Login Akun</h2>  
+    <h2 class="title-banner">Login Akun</h2>
   </div>
-</div> 
+</div>
 <div id="register">
   <div class="container">
     <div class="row">
@@ -14,46 +14,44 @@
       </div>
       <div class="col-md-7 form-register">
         <h3>Login</h3>
-        <p>Belum punya akun? <a href="<?php echo base_url().'daftar' ?>" style="color: red">Daftar</a></p>
-        <form action="<?php echo base_url().'login'; ?>" method="post">
+        <p>Belum punya akun? <a href="<?php echo base_url() . 'daftar' ?>" style="color: red">Daftar</a></p>
+        <form action="<?php echo base_url() . 'login'; ?>" method="post">
           <div class="form-group">
             <label for="inputAddress">Email</label>
-            <input type="email" class="form-control" id="" placeholder="Masukkan email Anda" name="user_email" value="<?php echo set_value('user_email'); ?>">           
+            <input type="email" class="form-control" id="" placeholder="Masukkan email Anda" name="user_email" value="<?php echo set_value('user_email'); ?>">
             <small><span class="text-danger"><?php echo form_error('user_email'); ?></span></small>
           </div>
           <div class="form-group">
-                <span>Password</span>
-                <p class="float-right"><a href="<?php echo base_url().'forgot-password' ?>" style="color: red"> Lupa Password?</a></p>
-                <input type="password" class="form-control" id="" placeholder="Masukkan password Anda" name="user_password" value="<?php echo set_value('user_password'); ?>">
-                <small><span class="text-danger"><?php echo form_error('user_password'); ?></span></small>
-              </div>
+            <span>Password</span>
+            <p class="float-right"><a href="<?php echo base_url() . 'login/forgot' ?>" style="color: red"> Lupa Password?</a></p>
+            <input type="password" class="form-control" id="" placeholder="Masukkan password Anda" name="user_password" value="<?php echo set_value('user_password'); ?>">
+            <small><span class="text-danger"><?php echo form_error('user_password'); ?></span></small>
+          </div>
 
           <center><button type="submit" class="btn btn-secondary pl-5 pr-5">Login</button></center>
-          <br />  
+          <br />
           <div class="row">
             <div class="col-md-12">
               <h6 style="text-align:center; color:#474443;">atau login dengan</h6>
             </div>
-          </div>  
+          </div>
           <div class="row">
             <div class="col-md-6">
               <div style="text-align:center;">
                 <a href="<?php echo $facebook_oauth; ?>" class="btn-face m-b-20">
-                <img src="<?php echo base_url(); ?>assets/icons/facebook_logo.png" alt="facebook">
+                  <img src="<?php echo base_url(); ?>assets/icons/facebook_logo.png" alt="facebook">
                   Facebook
                 </a>
-              </div>  
+              </div>
             </div>
-            <div class="col-md-6">    
-            <div style="text-align:center;">
-                <a href="<?php echo $google_oauth; ?>"
-              
-                class="btn-google m-b-20">
+            <div class="col-md-6">
+              <div style="text-align:center;">
+                <a href="<?php echo $google_oauth; ?>" class="btn-google m-b-20">
                   <img src="<?php echo base_url(); ?>assets/icons/google_logo.png" alt="GOOGLE">
                   Google
                 </a>
-              </div>  
-            </div>  
+              </div>
+            </div>
           </div>
           <br />
         </form>
