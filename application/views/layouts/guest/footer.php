@@ -116,12 +116,12 @@
             <form action="<?php echo base_url() . 'login' ?>" method="post">
               <div class="form-group">
                 <span>Email</span>
-                <input type="email" class="form-control" id="" placeholder="Masukkan email Anda" name="user_email">
+                <input type="email" class="form-control" placeholder="Masukkan email Anda" name="user_email">
               </div>
               <div class="form-group">
                 <span>Password</span>
                 <p class="float-right"><a href="<?php echo base_url() . 'forgot-password' ?>" style="color: red"> Lupa Password?</a></p>
-                <input type="password" class="form-control" id="" placeholder="Masukkan password Anda" name="user_password">
+                <input type="password" class="form-control" placeholder="Masukkan password Anda" name="user_password">
               </div>
               <div class="form-group">
                 <div class="form-check">

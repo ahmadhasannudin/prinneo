@@ -53,10 +53,6 @@ class Login extends CI_Controller
                 //init auth facebook token
                 require_once 'vendor/autoload.php';
 
-
-
-
-
                 // init configuration google
                 $clientID = getenv('CLIENT_ID');
                 $clientSecret = getenv('CLIENT_SECRET');
@@ -405,6 +401,7 @@ class Login extends CI_Controller
         $this->email->to($data['email']);
         $this->email->subject($subject);
         $this->email->message($message);
+
         if ($this->email->send()) {
             $this->session->set_flashdata('notifikasi', '<div class="alert alert-success alert-dismissible fade show position-fixed" role="alert" style="position: absolute; top: 0; right: 0; margin:50px;z-index:999">
         <strong>Pendaftaran akun berhasil!</strong>, Kami akan mengirimkan balasan melalui email ' . $data['email'] . ' anda
@@ -423,5 +420,111 @@ class Login extends CI_Controller
             // echo $this->email->print_debugger();
             // exit();
         }
+    }
+
+    public function forgot()
+    {
+        $data = [
+            'isi' => 'pages/guest/v_forgot_pass',
+            'pageFooter'            => 'pages/guest/v_forgot_pass_footer',
+            'title' => 'Login',
+            'contacts' => $this->M_contacts->get_all()->row(),
+            'product_categorys' => $this->M_product_categorys->get_all()->result(),
+            'product_sub_categorys' => $this->M_product_sub_categorys->get_all()->result()
+        ];
+        $this->load->view("layouts/guest/wrapper", $data, false);
+    }
+
+    public function forgotEmail()
+    {
+        if (!$this->input->is_ajax_request()) {
+            exit('No direct script access allowed');
+        }
+        $valid = $this->form_validation;
+        $valid->set_error_delimiters('', '');
+        $valid->set_rules('user_email', 'Email', 'required|valid_email');
+
+        if ($valid->run() == FALSE) {
+            return resp(false,  validation_errors());
+        }
+        $user = $this->M_users->get_conditions([
+            'user_email' => $this->input->post('user_email')
+        ])->row();
+
+        // print_r($user);
+        if (!empty($user)) {
+            $user->confirmation_code = bin2hex(random_bytes(20));
+            // generate random hash
+            $this->M_users->update([
+                'user_id' => $user->user_id,
+                'confirmation_code' => $user->confirmation_code
+            ]);
+
+            $this->sendEmail([
+                'user_email' => $user->user_email,
+                'user_name' => $user->user_name,
+                'confirmation_code' => urlencode(base64_encode($user->confirmation_code))
+            ]);
+        }
+        return resp(true, 'Email confirmed. Please check your email inbox !');
+    }
+
+    public function sendEmail($dataEmail)
+    {
+        $data['email'] = $dataEmail['user_email'];
+        $data['nama_lengkap'] = $dataEmail['user_name'];
+        $data['confirmation_code'] = $dataEmail['confirmation_code'];
+        // echo "<pre>";
+        // print_r($data);
+        return  $this->load->view('email/email_forgot_password', $data);
+        exit();
+        $subject = "Pendaftaran Akun Prinneo";
+        $message = $this->load->view('email/email_forgot_password', $data, true);
+        $config = array(
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://mail.prinneo.com',
+            'smtp_port' => '465',
+            'smtp_user' => 'info@prinneo.com',
+            'smtp_pass' => '@Prinneo123',
+            'mailtype' => 'html',
+            'charset' => 'utf-8',
+            'wordwrap' => true,
+        );
+        $this->load->library('email');
+        $this->email->initialize($config);
+        $this->email->set_newline("\r\n");
+        $this->email->from('info@prinneo.com', 'Customer Service Prinneo');
+        $this->email->to($data['email']);
+        $this->email->subject($subject);
+        $this->email->message($message);
+
+        if ($this->email->send()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function new_password()
+    {
+        $user = $this->M_users->get_conditions([
+            'user_email' => $this->input->get('email'),
+            'confirmation_code' => base64_decode(urldecode($this->input->get('code')))
+        ])->row();
+
+        if (empty($user)) {
+            redirect(site_url('home'), 'refresh');
+        }
+
+        $data = [
+            'isi' => 'pages/guest/v_new_password',
+            'pageFooter'            => 'pages/guest/v_new_password_footer',
+            'title' => 'New Password',
+            'contacts' => $this->M_contacts->get_all()->row(),
+            'product_categorys' => $this->M_product_categorys->get_all()->result(),
+            'product_sub_categorys' => $this->M_product_sub_categorys->get_all()->result(),
+            'dataUser' => $user
+        ];
+        $this->load->view("layouts/guest/wrapper", $data, false);
     }
 }

@@ -62,3 +62,13 @@ alter table career_applicant
 		primary key (career_applicant_id);
 
 alter table career_applicant modify career_applicant_id int auto_increment;
+
+alter table users
+	add is_email_confirmed boolean not null;
+
+UPDATE users
+SET is_email_confirmed = true
+WHERE is_email_confirmed = false;
+
+alter table users
+	add confirmation_code varchar(255) null;

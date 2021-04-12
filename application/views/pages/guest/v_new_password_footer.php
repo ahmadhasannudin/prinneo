@@ -1,27 +1,14 @@
 <script>
-    $(document).ready(function() {
-        if (typeof CKEDITOR != 'undefined') {
-            CKEDITOR.on('instanceReady', function(e) {
-                e.editor.element.show();
-                e.editor.element.hide();
-                e.editor.resize('100%', '605', true);
-            });
-        }
-
-    });
-
-
-    $('#form-about-us').submit(function(e) {
+    $('#form-forgot-password').submit(function(e) {
         e.preventDefault();
-        let attribute = $(this);
-        for (instance in CKEDITOR.instances) {
-            CKEDITOR.instances[instance].updateElement();
-        }
-        var form = $('#form-about-us');
+
+        let btn = $(this),
+            form = $('#form-forgot-password');
+
+        console.log(form.serialize());
         isiForm = new FormData(form[0]);
-        Swal.fire({
+        swal.fire({
             title: 'Are you sure?',
-            text: "Update data",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -36,7 +23,7 @@
                     allowEscapeKey: false,
                     allowEnterKey: false,
                     onBeforeOpen: function() {
-                        Swal.showLoading()
+                        Swal.showLoading();
                         $.ajax({
                             type: "POST",
                             data: isiForm,
@@ -45,11 +32,11 @@
                             contentType: false,
                             cache: false,
                             success: function(data) {
+                                console.log(data);
                                 if (data.status) {
                                     Swal.fire({
                                         icon: 'success',
                                         title: data.message,
-                                        timer: 1000
                                     });
                                 } else {
                                     Swal.fire({
@@ -60,7 +47,7 @@
                                 }
                             },
                             beforeSend: function() {
-                                attribute.prop('disabled', true);
+                                btn.prop('disabled', true);
                             },
                             complete: function(res) {
                                 if (res.responseJSON === undefined) {
@@ -87,6 +74,6 @@
                 })
             }
 
-        })
+        });
     });
 </script>
