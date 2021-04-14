@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-class M_users extends CI_Model
+
+require_once APPPATH . 'models/ModelBase.php';
+
+class M_users extends ModelBase
 {
   public function __construct()
   {

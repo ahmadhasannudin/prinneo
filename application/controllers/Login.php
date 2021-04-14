@@ -474,10 +474,7 @@ class Login extends CI_Controller
         $data['email'] = $dataEmail['user_email'];
         $data['nama_lengkap'] = $dataEmail['user_name'];
         $data['confirmation_code'] = $dataEmail['confirmation_code'];
-        // echo "<pre>";
-        // print_r($data);
-        return  $this->load->view('email/email_forgot_password', $data);
-        exit();
+
         $subject = "Pendaftaran Akun Prinneo";
         $message = $this->load->view('email/email_forgot_password', $data, true);
         $config = array(
@@ -507,6 +504,62 @@ class Login extends CI_Controller
 
     public function new_password()
     {
+        // submit new password
+        if ($this->input->is_ajax_request()) {
+
+            $valid = $this->form_validation;
+            $valid->set_error_delimiters('', '');
+
+            $valid->set_rules('email', 'Email', 'required');
+            $valid->set_rules('confirmation_code', 'Code', 'required');
+            $valid->set_rules('password', 'Password', 'required');
+            $valid->set_rules('re_password', 'Confirm Password', 'required|matches[password]');
+
+            if ($valid->run() == FALSE) {
+                return resp(false,  validation_errors());
+            }
+
+            $where = [
+                'user_email' => $this->input->post('email'),
+                'confirmation_code' => base64_decode(urldecode($this->input->post('confirmation_code')))
+            ];
+
+            $update = [
+                'user_password' => md5($this->input->post('password')),
+                'confirmation_code' => null
+            ];
+
+            if (!$this->M_users->ubah_data('users', $where, null, $update)) {
+                return resp(false,  $this->M_users->get_message());
+            }
+
+            // login user
+
+            $email_user = $this->input->post('email');
+            $password_user = md5($this->input->post('password'));
+            $check_login = $this->M_login->login($email_user, $password_user);
+
+            if (!empty($check_login)) {
+                $this->session->set_userdata('email_user', $email_user);
+                $this->session->set_userdata('user_id', $check_login->user_id);
+                $this->session->set_userdata('user_name', $check_login->user_name);
+                $this->session->set_userdata('user_phone', $check_login->user_phone);
+                $this->session->set_userdata('user_gender', $check_login->user_gender);
+                $this->session->set_userdata('user_role', $check_login->user_role);
+                $this->session->set_userdata('user_photo', $check_login->user_photo);
+
+                if ($this->session->userdata('user_role') == '1') {
+                    $redirect = ['url' => site_url('manage/dasbor')];
+                } else if ($this->session->userdata('user_role') == '5') {
+                    $redirect = ['url' => site_url('user/dasbor')];
+                }
+            } else {
+                $redirect = ['url' => site_url('login')];
+            }
+
+            return resp(true,  'success', $redirect);
+        }
+
         $user = $this->M_users->get_conditions([
             'user_email' => $this->input->get('email'),
             'confirmation_code' => base64_decode(urldecode($this->input->get('code')))

@@ -17,7 +17,6 @@ class ModelBase extends CI_Model
         // $this->db->trans_begin();
     }
 
-
     public function get_transaction_db_error()
     {
         $error['code']    = '';
@@ -33,6 +32,39 @@ class ModelBase extends CI_Model
         }
 
         return $error;
+    }
+
+    public function ubah_data($tabel, $kolom, $id = null, $data)
+    {
+        if (empty($tabel) || empty($data) || empty($kolom)) {
+            return false;
+        }
+
+        $this->db->trans_begin();
+
+
+        if (is_array($kolom)) {
+            $this->db->update($tabel, $data, $kolom);
+            // return $this->db->affected_rows();
+        }
+        $this->db->where($kolom, $id);
+        $this->db->update($tabel, $data);
+
+        // jika transaksi gagal dilakukan atau
+        // approval gagal dieksekusi
+        // do transaction rollback
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
+            $error_message = $this->get_transaction_db_error();
+            // Error Approval
+            $this->message = 'Failed to edit data. <br>Error: ' . (!empty($error_message['message']) ? $error_message['message'] : 'Unknown Error.');
+
+            return false;
+        } else {
+            $this->db->trans_commit();
+            $this->message = 'Data edited successfully.';
+            return true;
+        }
     }
 
     public function get_db_error()

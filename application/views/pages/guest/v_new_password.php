@@ -18,7 +18,7 @@
                 <form id="form-forgot-password" action="<?= base_url() . 'login/new_password'; ?>" onsubmit="return false;" method="post">
                     <div class="form-group">
                         <input type="password" class="form-control" placeholder="Enter New Password" name="password" value="">
-                        <input type="password2" class="form-control" placeholder="Renter New Password" name="password" value="">
+                        <input type="password" class="form-control" placeholder="Renter New Password" name="re_password" value="">
                         <span class="text-danger"><?php echo form_error('user_email'); ?></span>
                     </div>
                     <button type="submit" class="btn btn-modal-login">Submit</button>
