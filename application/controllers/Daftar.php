@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Daftar extends CI_Controller{
+class Daftar extends CI_Controller
+{
 
   public function __construct()
   {
@@ -19,17 +20,19 @@ class Daftar extends CI_Controller{
     $product_sub_categorys =  $this->M_product_sub_categorys->get_all()->result();
     $contacts              =  $this->M_contacts->get_all()->row();
     $data  =
-    array(
-      'title'                 =>  'Daftar',
-      'isi'                   =>  'pages/guest/v_regis',
-      'product_categorys'     =>  $product_categorys,
-      'product_sub_categorys' =>  $product_sub_categorys,
+      array(
+        'title'                 =>  'Daftar',
+        'isi'                   =>  'pages/guest/v_regis',
+        'product_categorys'     =>  $product_categorys,
+        'product_sub_categorys' =>  $product_sub_categorys,
 
-      'contacts'              =>  $contacts,
-    );
+        'contacts'              =>  $contacts,
+      );
     $this->load->view("layouts/guest/wrapper", $data, false);
   }
-  function baru(){
+
+  function baru()
+  {
     $valid = $this->form_validation;
     $i  = $this->input;
     $valid->set_rules(
@@ -50,6 +53,15 @@ class Daftar extends CI_Controller{
       )
     );
     $valid->set_rules(
+      'user_phone',
+      'user_phone',
+      'required|is_unique[users.user_phone]',
+      array(
+        'required'  =>  'Email harus diisi',
+        'is_unique'  =>  'Nomor telephone sudah dipakai'
+      )
+    );
+    $valid->set_rules(
       'user_password',
       'user_password',
       'required|min_length[6]',
@@ -67,32 +79,21 @@ class Daftar extends CI_Controller{
         'matches'     =>  'Password konfirmasi tidak sama'
       )
     );
-    $valid->set_rules(
-      'user_phone',
-      'user_phone',
-      'required',
-      array(
-        'required'  =>  'No. Handphone harus diisi'
-      )
-    );
-
-    if ($valid->run()===false)
-    {
+    if ($valid->run() === false) {
       $product_categorys     =  $this->M_product_categorys->get_all()->result();
       $product_sub_categorys =  $this->M_product_sub_categorys->get_all()->result();
       $contacts              =  $this->M_contacts->get_all()->row();
       $data  =
-      array(
-        'title'                 =>  'Daftar',
-        'isi'                   =>  'pages/guest/v_regis',
-        'product_categorys'     =>  $product_categorys,
-        'product_sub_categorys' =>  $product_sub_categorys,
-        'contacts'              =>  $contacts,
-      );
+        array(
+          'title'                 =>  'Daftar',
+          'isi'                   =>  'pages/guest/v_regis',
+          'product_categorys'     =>  $product_categorys,
+          'product_sub_categorys' =>  $product_sub_categorys,
+          'contacts'              =>  $contacts,
+        );
       $this->load->view("layouts/guest/wrapper", $data, false);
-    }
-    else
-    {
+    } else {
+
       $data = array(
         'user_name'      =>  $i->post('user_name'),
         'user_email'      =>  $i->post('user_email'),
@@ -102,21 +103,33 @@ class Daftar extends CI_Controller{
         'address_id'      =>  '0',
         'user_role'      =>  '5',
         'user_photo'      =>  'user.jpg',
+        'confirmation_code' => bin2hex(random_bytes(20))
       );
-      $this->send_konfirmasi($data['user_email'],$data['user_name']);
-      // echo $data['user_email'].$data['user_name'];
-      // exit();
+
+      $this->send_konfirmasi([
+        'user_email' => $data['user_email'],
+        'user_name' => $data['user_name'],
+        'confirmation_code' => urlencode(base64_encode($data['confirmation_code']))
+      ]);
+
       $this->M_users->add_user($data);
-      // $this->session->set_flashdata('notifikasi', '<div class="alert alert-success alert-dismissible fade show position-fixed" role="alert" style="position: absolute; top: 0; right: 0; margin:50px;z-index:999">
-      //   <strong>Pendaftaran akun berhasil!</strong>, Kami akan mengirimkan balasan melalui email '.$i->post('user_email').' anda
-      //   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      //   <span aria-hidden="true">&times;</span>
-      //   </button>
-      //   </div>');
-      redirect('/home');
+
+      $product_categorys     =  $this->M_product_categorys->get_all()->result();
+      $product_sub_categorys =  $this->M_product_sub_categorys->get_all()->result();
+      $contacts              =  $this->M_contacts->get_all()->row();
+      $data  =
+        array(
+          'title'                 =>  'Daftar',
+          'isi'                   =>  'pages/guest/v_regis_success',
+          'product_categorys'     =>  $product_categorys,
+          'product_sub_categorys' =>  $product_sub_categorys,
+          'contacts'              =>  $contacts,
+        );
+      $this->load->view("layouts/guest/wrapper", $data, false);
     }
   }
-  function forgot(){
+  function forgot()
+  {
     $valid = $this->form_validation;
     $i  = $this->input;
     $valid->set_rules(
@@ -128,29 +141,26 @@ class Daftar extends CI_Controller{
       )
     );
 
-    if ($valid->run()===false)
-    {
+    if ($valid->run() === false) {
       $product_categorys     =  $this->M_product_categorys->get_all()->result();
       $product_sub_categorys =  $this->M_product_sub_categorys->get_all()->result();
       $contacts              =  $this->M_contacts->get_all()->row();
       $data  =
-      array(
-        'title'                 =>  'Daftar',
-        'isi'                   =>  'pages/guest/v_forgot_pass',
-        'product_categorys'     =>  $product_categorys,
-        'product_sub_categorys' =>  $product_sub_categorys,
-        'contacts'              =>  $contacts,
-      );
+        array(
+          'title'                 =>  'Daftar',
+          'isi'                   =>  'pages/guest/v_forgot_pass',
+          'product_categorys'     =>  $product_categorys,
+          'product_sub_categorys' =>  $product_sub_categorys,
+          'contacts'              =>  $contacts,
+        );
       $this->load->view("layouts/guest/wrapper", $data, false);
-    }
-    else
-    {
+    } else {
       $data = array(
         'user_email'      =>  $i->post('user_email'),
       );
       $this->M_users->add_forgot($data);
       $this->session->set_flashdata('notifikasi', '<div class="alert alert-success alert-dismissible fade show position-fixed" role="alert" style="position: absolute; top: 0; right: 0; margin:50px;z-index:999">
-        <strong>Pendaftaran akun berhasil!</strong>, Kami akan mengirimkan balasan melalui email '.$i->post('user_email').' anda
+        <strong>Pendaftaran akun berhasil!</strong>, Kami akan mengirimkan balasan melalui email ' . $i->post('user_email') . ' anda
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
         </button>
@@ -161,26 +171,17 @@ class Daftar extends CI_Controller{
   public function email_check($email)
   {
     $str = $this->M_users->email_check($email);
-    if (!isset($str))
-    {
+    if (!isset($str)) {
       $this->form_validation->set_message('email_check', 'Email Anda Belum Terdaftar');
       return FALSE;
-    }
-    else
-    {
+    } else {
       return TRUE;
     }
   }
-  public function send_konfirmasi($email,$nama_lengkap)
-  { 
-    $data['email'] = $email;
-    $data['nama_lengkap'] = $nama_lengkap;
-    // echo "<pre>";
-    // print_r($data);
-    // $this->load->view('email/email_register_', $data);
-    // exit();
+  public function send_konfirmasi($data)
+  {
     $subject  = "Pendaftaran Akun Prinneo";
-    $message  = $this->load->view('email/email_registrasi',$data,true);
+    $message  = $this->load->view('email/email_registrasi', $data, true);
     $config   = array(
       'protocol'    => 'smtp',
       'smtp_host'   => 'ssl://mail.prinneo.com',
@@ -192,29 +193,27 @@ class Daftar extends CI_Controller{
       'wordwrap'    => TRUE
     );
     $this->load->library('email');
-    $this->email->initialize($config); 
+    $this->email->initialize($config);
     $this->email->set_newline("\r\n");
-    $this->email->from('info@prinneo.com','Customer Service Prinneo');
-    $this->email->to($data['email']);
+    $this->email->from('info@prinneo.com', 'Customer Service Prinneo');
+    $this->email->to($data['user_email']);
     $this->email->subject($subject);
     $this->email->message($message);
-    if($this->email->send()){
+
+    if ($this->email->send()) {
       $this->session->set_flashdata('notifikasi', '<div class="alert alert-success alert-dismissible fade show position-fixed" role="alert" style="position: absolute; top: 0; right: 0; margin:50px;z-index:999">
-        <strong>Pendaftaran akun berhasil!</strong>, Kami akan mengirimkan balasan melalui email '.$data['email'].' anda
+        <strong>Pendaftaran akun berhasil!</strong>, Kami akan mengirimkan balasan melalui email ' . $data['user_email'] . ' anda
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
         </button>
         </div>');
     } else {
-      # code...
       $this->session->set_flashdata('notifikasi', '<div class="alert alert-danger alert-dismissible fade show position-fixed" role="alert" style="position: absolute; top: 0; right: 0; margin:50px;z-index:999">
        Pengiriman Email Gagal!!
        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
        <span aria-hidden="true">&times;</span>
        </button>
        </div>');
-      // echo $this->email->print_debugger();
-      // exit();  
     }
   }
   public function cek_email()
@@ -235,14 +234,12 @@ class Daftar extends CI_Controller{
     $this->email->subject('Contoh Kirim Email Dengan Codeigniter');
     $this->email->message('Contoh pesan yang dikirim dengan codeigniter');
 
-    if($this->email->send()) {
-     echo 'Email berhasil dikirim';
-   }  else {
-     echo 'Email tidak berhasil dikirim';
-     echo '<br />';
-     echo $this->email->print_debugger();
-   }
-
- } 
-
+    if ($this->email->send()) {
+      echo 'Email berhasil dikirim';
+    } else {
+      echo 'Email tidak berhasil dikirim';
+      echo '<br />';
+      echo $this->email->print_debugger();
+    }
+  }
 }

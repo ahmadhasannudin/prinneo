@@ -580,4 +580,60 @@ class Login extends CI_Controller
         ];
         $this->load->view("layouts/guest/wrapper", $data, false);
     }
+
+    public function activate_account()
+    {
+        $user = $this->M_users->get_conditions([
+            'user_email' => $this->input->get('email'),
+            'confirmation_code' => base64_decode(urldecode($this->input->get('code'))),
+            'is_email_confirmed' => 0
+        ])->row();
+
+        if (empty($user)) {
+            redirect(site_url('home'), 'refresh');
+        }
+
+        $where = [
+            'user_email' => $this->input->get('email'),
+            'confirmation_code' => base64_decode(urldecode($this->input->get('code'))),
+            'is_email_confirmed' => 0
+        ];
+
+        $update = [
+            'is_email_confirmed' => 1,
+            'confirmation_code' => null
+        ];
+
+        if (!$this->M_users->ubah_data('users', $where, null, $update)) {
+            redirect(site_url('home'), 'refresh');
+        }
+        // login user
+
+        $email_user = $user->user_email;
+        $password_user = $user->user_password;
+        $check_login = $this->M_login->login($email_user, $password_user);
+
+        if (!empty($check_login)) {
+            if ($check_login->is_email_confirmed == 0) {
+                $redirect =  site_url('user/activate_user');
+            }
+            $this->session->set_userdata('email_user', $email_user);
+            $this->session->set_userdata('user_id', $check_login->user_id);
+            $this->session->set_userdata('user_name', $check_login->user_name);
+            $this->session->set_userdata('user_phone', $check_login->user_phone);
+            $this->session->set_userdata('user_gender', $check_login->user_gender);
+            $this->session->set_userdata('user_role', $check_login->user_role);
+            $this->session->set_userdata('user_photo', $check_login->user_photo);
+
+            if ($this->session->userdata('user_role') == '1') {
+                $redirect =  site_url('manage/dasbor');
+            } else if ($this->session->userdata('user_role') == '5') {
+                $redirect =  site_url('user/dasbor');
+            }
+        } else {
+            $redirect =  site_url('login');
+        }
+
+        redirect($redirect, 'refresh');
+    }
 }

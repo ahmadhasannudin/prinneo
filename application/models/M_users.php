@@ -29,6 +29,16 @@ class M_users extends ModelBase
     $query  = $this->db->get();
     return $query;
   }
+  public function validate_email($conditions)
+  {
+    $this->db->select('*');
+    $this->db->from($this->table);
+    $this->db->where('user_email', $conditions['user_email']);
+    $this->db->or_where('user_phone', $conditions['user_phone']);
+    $this->db->order_by('user_id', 'DESC');
+    $query  = $this->db->get();
+    return $query;
+  }
   public function get_conditions($conditions)
   {
     $this->db->select('*, users.user_id AS user_id');

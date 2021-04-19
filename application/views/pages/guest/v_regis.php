@@ -1,8 +1,8 @@
 <div id="banner">
   <div class="container">
-    <h2 class="title-banner">Daftar Akun</h2>  
+    <h2 class="title-banner">Daftar Akun</h2>
   </div>
-</div> 
+</div>
 <div id="register">
   <div class="container">
     <div class="row">
@@ -14,8 +14,8 @@
       </div>
       <div class="col-md-7 form-register">
         <h3>Daftar Sekarang</h3>
-        <p>Sudah punya akun? <a href="<?php echo base_url().'login' ?>" style="color: red">Masuk</a></p>
-        <form action="<?php echo base_url().'daftar/baru'; ?>" method="post">
+        <p>Sudah punya akun? <a href="<?php echo base_url() . 'login' ?>" style="color: red">Masuk</a></p>
+        <form action="<?php echo base_url() . 'daftar/baru'; ?>" method="post">
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="">Nama lengkap</label>
@@ -48,7 +48,7 @@
                 <span class="input-group-text" id="basic-addon1">+62</span>
               </div>
               <input type="number" class="form-control" id="" name="user_phone" value="<?php echo set_value('user_phone'); ?>">
-            </div>            
+            </div>
             <small><span class="text-danger"><?php echo form_error('user_phone'); ?></span></small>
           </div>
           <center><button type="submit" class="btn btn-secondary pl-5 pr-5">Daftar</button></center>
