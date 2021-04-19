@@ -34,8 +34,8 @@ class Dasbor extends CI_Controller
         'user_details'          =>  $user_details,
         'product_categorys'     =>  $product_categorys,
         'product_sub_categorys' =>  $product_sub_categorys,
-
         'contacts'              =>  $contacts,
+        'pageFooter'            => 'pages/user/dasbor_v_footer',
       );
       // echo "<pre>";
       // print_r($data);
@@ -310,5 +310,16 @@ class Dasbor extends CI_Controller
       // exit();
       $this->load->view("layouts/guest/wrapper", $data, false);
     }
+  }
+
+  function update_informasi()
+  {
+
+    if (!$this->input->is_ajax_request()) {
+      exit('No direct script access allowed');
+    }
+
+    print_r($this->input->post());
+    # code...
   }
 }

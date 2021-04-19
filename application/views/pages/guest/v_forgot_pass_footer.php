@@ -5,7 +5,6 @@
         let btn = $(this),
             form = $('#form-forgot-password');
 
-        console.log(form.serialize());
         isiForm = new FormData(form[0]);
         swal.fire({
             title: 'Are you sure?',
@@ -32,7 +31,6 @@
                             contentType: false,
                             cache: false,
                             success: function(data) {
-                                console.log(data);
                                 if (data.status) {
                                     Swal.fire({
                                         icon: 'success',
