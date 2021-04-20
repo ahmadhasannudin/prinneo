@@ -13,6 +13,7 @@ class Dasbor extends CI_Controller
     $this->load->model('M_faqs');
     $this->load->model('M_orders');
     $this->load->model('M_users');
+    $this->load->model('M_login');
   }
 
   function index()
@@ -319,7 +320,26 @@ class Dasbor extends CI_Controller
       exit('No direct script access allowed');
     }
 
-    print_r($this->input->post());
-    # code...
+    $check_login = $this->M_login->login($this->input->post('user_email'), md5($this->input->post('password')));
+
+    if (empty($check_login)) {
+      return resp(false,  'Incorect Email or Password');
+    }
+
+    $update = [
+      'user_name' => $this->input->post('user_name'),
+      'user_email' => $this->input->post('user_email'),
+      'user_phone' => $this->input->post('user_phone'),
+      'user_gender' => $this->input->post('user_gender'),
+    ];
+
+    $where = [
+      'user_id' => $check_login->user_id
+    ];
+
+    if (!$this->M_users->ubah_data('users', $where, null, $update)) {
+      return resp(false,  $this->M_users->get_message());
+    }
+    return resp(true,  'Data has been updated');
   }
 }

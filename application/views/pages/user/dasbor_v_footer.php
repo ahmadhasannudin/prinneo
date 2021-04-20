@@ -35,8 +35,6 @@
                                 icon: 'success',
                                 title: data.message,
                             });
-                            console.log(data);
-                            window.location.href = data.data.url;
                         } else {
                             Swal.fire({
                                 icon: 'error',
