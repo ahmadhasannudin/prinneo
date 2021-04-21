@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Cart extends CI_Controller{
+class Cart extends CI_Controller
+{
 
   public function __construct()
   {
@@ -22,14 +23,14 @@ class Cart extends CI_Controller{
     $contacts              =  $this->M_contacts->get_all()->row();
     $faqs                  =  $this->M_faqs->get_all()->result();
     $data  =
-    array(
-      'title'                 =>  'Tinjauan Pesanan',
-      'isi'                   =>  'pages/guest/v_cart',
-      'product_categorys'     =>  $product_categorys,
-      'product_sub_categorys' =>  $product_sub_categorys,
+      array(
+        'title'                 =>  'Tinjauan Pesanan',
+        'isi'                   =>  'pages/guest/v_cart',
+        'product_categorys'     =>  $product_categorys,
+        'product_sub_categorys' =>  $product_sub_categorys,
 
-      'contacts'              =>  $contacts,
-    );
+        'contacts'              =>  $contacts,
+      );
     // echo "<pre>";
     // print_r($cart);
     // exit();
@@ -37,62 +38,52 @@ class Cart extends CI_Controller{
   }
   public function add_cart()
   {
-    $input                    = $this->input;
-    $config['upload_path']          = './assets/images/tmp_cart/';
-    $config['allowed_types']        = 'gif|jpg|png|jpeg';
-    $config['max_size']             = 3000;
-    $this->upload->initialize($config);
-    if ( ! $this->upload->do_upload('file_order'))
-    {
-      $this->session->set_flashdata('notifikasi', '
-        <div class="alert alert-danger alert-dismissible fade show position-fixed" role="alert" style="position: absolute; top: 0; right: 0; margin:50px;">
-        <strong>Gagal Upload!</strong>.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-        </button>
-        </div>');
-      redirect('cart');
-    }
-    else
-    {
-      $data = array(
-        'nama_order'               => $input->post('nama_order'),
-        'nohp_order'               => $input->post('nohp_order'),
-        'email_order'              => $input->post('email_order'),
-        'jenis_order'              => $input->post('jenis_order'),
-        'product_category_id'      => $input->post('product_category_id'),
-        'product_sub_category_id'  => $input->post('product_sub_category_id'),
-        'product_image'            => $input->post('product_image'),
-        'product_spesifikasi'      => $input->post('product_spesifikasi'),
-        'kode_order'               => $input->post('kode_order'),
-        'file_order'               => $this->upload->data(),
-        'keterangan_order'         => $input->post('keterangan_order'),
-        'id'                       => $input->post('product_id'), 
-        'name'                     => $input->post('product_name'),  
-        'price'                    => $input->post('price'), 
-        'qty'                      => $input->post('qty'),
-      );
-      $cart = $this->cart->contents();
-      $tmp_file = array(
-        'kode_order'               => $data['kode_order'],
-        'file_tmp'               => $this->upload->data('file_name'),
-      );
-      $this->cart->insert($data);
-      $this->M_orders->add($tmp_file);
-    // echo "<pre>";
-    // print_r($data);
-    // print_r($tmp_file);
-    // exit();
 
-      $this->session->set_flashdata('notifikasi', '
-        <div class="alert alert-success alert-dismissible fade show position-fixed" role="alert" style="position: absolute; top: 0; right: 0; margin:50px;">
-        <strong>Data Berhasil Tersimpan!</strong>.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-        </button>
-        </div>');
-      redirect('cart');
+    $config['upload_path'] = './assets/images/tmp_cart';
+    $config['allowed_types'] = 'gif|jpg|png|jpeg';
+    $config['encrypt_name'] = true;
+    $config['max_size'] = 3000;
+
+    $this->load->library('upload', $config);
+    $this->upload->initialize($config);
+
+    $file_order = '';
+
+    if (isset($_FILES['file_order']['name']) and !empty($_FILES['file_order']['name'])) {
+      if (!$this->upload->do_upload('file_order')) {
+        return resp(false,  $this->upload->display_errors());
+      }
+
+      $file_order = $this->upload->data('file_name');
     }
+
+    $data = array(
+      'nama_order'               => $this->input->post('nama_order'),
+      'nohp_order'               => $this->input->post('nohp_order'),
+      'email_order'              => $this->input->post('email_order'),
+      'jenis_order'              => $this->input->post('jenis_order'),
+      'product_category_id'      => $this->input->post('product_category_id'),
+      'product_sub_category_id'  => $this->input->post('product_sub_category_id'),
+      'product_image'            => $this->input->post('product_image'),
+      'product_spesifikasi'      => $this->input->post('product_spesifikasi'),
+      'kode_order'               => $this->input->post('kode_order'),
+      'file_order'               => $file_order,
+      'keterangan_order'         => $this->input->post('keterangan_order'),
+      'id'                       => $this->input->post('product_id'),
+      'name'                     => $this->input->post('product_name'),
+      'price'                    => $this->input->post('price'),
+      'qty'                      => $this->input->post('qty'),
+    );
+
+    $cart = $this->cart->contents();
+    $tmp_file = array(
+      'kode_order' => $data['kode_order'],
+      'file_tmp' => $file_order,
+    );
+    $this->cart->insert($data);
+    $this->M_orders->add($tmp_file);
+
+    return resp(true,  'success');
   }
   public function add()
   {
@@ -107,9 +98,9 @@ class Cart extends CI_Controller{
       'product_image'  => $input->post('product_image'),
       'product_spesifikasi'      => $input->post('product_spesifikasi'),
       'kode_order'               => '-',
-      'id'                       => $input->post('product_id'), 
-      'name'                     => $input->post('product_name'),  
-      'price'                    => $input->post('price'), 
+      'id'                       => $input->post('product_id'),
+      'name'                     => $input->post('product_name'),
+      'price'                    => $input->post('price'),
       'qty'                      => $input->post('qty'),
     );
     $this->cart->insert($data);
@@ -125,24 +116,23 @@ class Cart extends CI_Controller{
       </button>
       </div>');
     redirect('cart');
-
   }
   public function delete_cart($id)
   {
     $data = array(
-      'rowid' => $id, 
-      'qty' => 0, 
+      'rowid' => $id,
+      'qty' => 0,
     );
     $this->cart->update($data);
     redirect('cart');
   }
   public function add_qty()
   {
-    $id   = $this->input->get('id',TRUE);
-    $qty  = $this->input->get('qty',TRUE);
+    $id   = $this->input->get('id', TRUE);
+    $qty  = $this->input->get('qty', TRUE);
     $data = array(
-      'rowid' => $id, 
-      'qty' => $qty, 
+      'rowid' => $id,
+      'qty' => $qty,
     );
     // echo "<pre>";
     // print_r($data);
@@ -150,5 +140,4 @@ class Cart extends CI_Controller{
     $this->cart->update($data);
     redirect('cart');
   }
-
 }

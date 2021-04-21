@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Service extends CI_Controller{
+class Service extends CI_Controller
+{
 
   public function __construct()
   {
@@ -23,15 +24,16 @@ class Service extends CI_Controller{
     $product_sub_categorys =  $this->M_product_sub_categorys->get_all()->result();
     $contacts              =  $this->M_contacts->get_all()->row();
     $data  =
-    array(
-      'title'                 =>  'Jasa Desain',
-      'isi'                   =>  'pages/guest/v_design_jasa',
-      'product_categorys'     =>  $product_categorys,
-      'product_details'       =>  $product_details,
-      'product_sub_categorys' =>  $product_sub_categorys,
+      array(
+        'title'                 =>  'Jasa Desain',
+        'isi'                   =>  'pages/guest/v_design_jasa',
+        'pageFooter'            =>  'pages/guest/v_design_jasa_footer',
+        'product_categorys'     =>  $product_categorys,
+        'product_details'       =>  $product_details,
+        'product_sub_categorys' =>  $product_sub_categorys,
 
-      'contacts'              =>  $contacts,
-    );
+        'contacts'              =>  $contacts,
+      );
     $this->load->view("layouts/guest/wrapper", $data, false);
   }
 
@@ -46,16 +48,15 @@ class Service extends CI_Controller{
     $product_sub_categorys =  $this->M_product_sub_categorys->get_all()->result();
     $contacts              =  $this->M_contacts->get_all()->row();
     $data  =
-    array(
-      'title'                 =>  'Upload Desain',
-      'isi'                   =>  'pages/guest/v_design_upload',
-      'product_details'       =>  $product_details,
-      'product_categorys'     =>  $product_categorys,
-      'product_sub_categorys' =>  $product_sub_categorys,
+      array(
+        'title'                 =>  'Upload Desain',
+        'isi'                   =>  'pages/guest/v_design_upload',
+        'product_details'       =>  $product_details,
+        'product_categorys'     =>  $product_categorys,
+        'product_sub_categorys' =>  $product_sub_categorys,
 
-      'contacts'              =>  $contacts,
-    );
+        'contacts'              =>  $contacts,
+      );
     $this->load->view("layouts/guest/wrapper", $data, false);
   }
-
 }
