@@ -16,7 +16,6 @@ class Cart extends CI_Controller
 
   function index()
   {
-
     $cart = $this->cart->contents();
     $product_categorys     =  $this->M_product_categorys->get_all()->result();
     $product_sub_categorys =  $this->M_product_sub_categorys->get_all()->result();
@@ -31,13 +30,28 @@ class Cart extends CI_Controller
 
         'contacts'              =>  $contacts,
       );
-    // echo "<pre>";
-    // print_r($cart);
-    // exit();
+
     $this->load->view("layouts/guest/wrapper", $data, false);
   }
   public function add_cart()
   {
+    $valid = $this->form_validation;
+    $valid->set_error_delimiters('', "");
+    $valid->set_rules('nama_order', 'Nama Lengkap', 'required');
+    $valid->set_rules('nohp_order', 'No HP', 'required');
+    $valid->set_rules('email_order', 'email', 'required|valid_email');
+    $valid->set_rules(
+      'refrensi',
+      'Referensi',
+      'required',
+      array(
+        'required'  =>  'Refrensi Desain harus diisi',
+      )
+    );
+
+    if ($valid->run() == FALSE) {
+      return resp(false,  validation_errors());
+    }
 
     $config['upload_path'] = './assets/images/tmp_cart';
     $config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -81,7 +95,7 @@ class Cart extends CI_Controller
       'file_tmp' => $file_order,
     );
     $this->cart->insert($data);
-    $this->M_orders->add($tmp_file);
+    // $this->M_orders->add($tmp_file);
 
     return resp(true,  'success');
   }

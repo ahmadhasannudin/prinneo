@@ -20,7 +20,12 @@
            <div class="form-row">
              <div class="form-group col-md-6">
                <label for="">No Hp</label>
-               <input type="number" name="nohp_order" class="form-control" placeholder="Masukkan no hp Anda" value="<?php echo $this->session->userdata('user_phone') ?>">
+               <div class="input-group mb-3">
+                 <div class="input-group-prepend">
+                   <span class="input-group-text" id="basic-addon1">+62</span>
+                 </div>
+                 <input type="number" name="nohp_order" class="form-control" placeholder="Masukkan no hp Anda" value="<?php echo $this->session->userdata('user_phone') ?>">
+               </div>
              </div>
              <div class="form-group col-md-6">
                <label for="">Email</label>

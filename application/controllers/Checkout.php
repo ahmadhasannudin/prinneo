@@ -48,27 +48,107 @@ class Checkout extends CI_Controller
     $data = array(
       'title'                 =>  'Checkout',
       'isi'                   =>  $checkout_v,
+      'pageFooter'            => 'pages/guest/v_checkout_footer',
       'product_categorys'     =>  $product_categorys,
       'product_sub_categorys' =>  $product_sub_categorys,
       'customer'              =>  $customer,
-
       'contacts'              =>  $contacts,
     );
 
     $this->load->view("layouts/guest/wrapper", $data, false);
   }
+
+  // proses checkout
+  function proses_checkout()
+  {
+
+    $params = array('server_key' => 'SB-Mid-server-iEy4HKvvHu22S303nrOSwkdx', 'production' => false);
+    $this->load->library('midtrans');
+    $this->midtrans->config($params);
+
+    $valid = $this->form_validation;
+    $valid->set_error_delimiters('', "");
+    $valid->set_rules('user_name', 'Nama Lengkap', 'required');
+    $valid->set_rules('user_email', 'Email', 'required|valid_email');
+    $valid->set_rules('user_phone', 'NO HP', 'required');
+    $valid->set_rules('address', 'Alamat', 'required');
+
+    if ($valid->run() == FALSE) {
+      return resp(false,  validation_errors());
+    }
+
+    // Required
+    $transaction_details = array(
+      'order_id' => rand() . date('dmYHis'),
+      'gross_amount' => (int) $this->input->post('order_grand_total'), // no decimal allowed for creditcard
+    );
+    $item_details = [];
+
+    foreach ($this->input->post('order_product_id') as $key => $value) {
+      $item_details[] = [
+        'id' => $value,
+        'price' => (int) $this->input->post('order_subtotal')[$key],
+        'quantity' => (int) $this->input->post('order_qty')[$key],
+        'name' => $this->input->post('order_name')[$key]
+      ];
+    }
+
+    $item_details[] = [
+      'id' => 0,
+      'price' => (int) $this->input->post('order_ongkir'),
+      'quantity' => (int) 1,
+      'name' => 'ongkir'
+    ];
+
+    $customer_details = [
+      'first_name' => $this->input->post('user_name'),
+      'last_name' => "-",
+      'email' => $this->input->post('user_email'),
+      'phone' => $this->input->post('user_phone'),
+      'address' => $this->input->post('address')
+    ];
+
+    // Data yang akan dikirim untuk request redirect_url.
+    $credit_card['secure'] = true;
+    //ser save_card true to enable oneclick or 2click
+    //$credit_card['save_card'] = true;
+
+    $time = time();
+    $custom_expiry = array(
+      'start_time' => date("Y-m-d H:i:s O", $time),
+      'unit' => 'minute',
+      'duration'  => 2
+    );
+
+    $transaction_data = array(
+      'transaction_details' => $transaction_details,
+      'item_details'       => $item_details,
+      'customer_details'   => $customer_details,
+      'credit_card'        => $credit_card,
+      'expiry'             => $custom_expiry
+    );
+    // print_r($transaction_data);
+    // exit;
+
+    $snapToken = $this->midtrans->getSnapToken($transaction_data);
+    print_r($snapToken);
+    // print_r($transaction_details);
+    // print_r($item_details);
+    // print_r($this->input->post());
+  }
+
   function add()
   {
     $valid = $this->form_validation;
     $i  = $this->input;
     $valid->set_rules(
-        'blog_category_name',
-        'blog_category_name',
-        'required',
-        array(
-          'required'  =>  'Nama kategori harus diisi'
-        )
-      );
+      'blog_category_name',
+      'blog_category_name',
+      'required',
+      array(
+        'required'  =>  'Nama kategori harus diisi'
+      )
+    );
 
     if ($valid->run() === false) {
       $product_categorys     =  $this->M_product_categorys->get_all()->result();

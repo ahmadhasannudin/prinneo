@@ -18,23 +18,24 @@ $response = curl_exec($curl);
 $err = curl_error($curl);
 curl_close($curl);
 if ($err) {
-  echo "cURL Error #:" . $err;
+  echo "<option>Layanan Tidak Ditemukan</option>";
 } else {
-  // echo "<pre>";
-  // echo $response;
+
   $data = json_decode($response, true);
-  //echo json_encode($k['rajaongkir']['results']);
-  
-  for ($k=0; $k < count($data['rajaongkir']['results']); $k++) {
-    if (count($data['rajaongkir']['results'])==0) {
-      echo "<option>Layanan Tidak Ditemukan</option>";
-    }
-    for ($l=0; $l < count($data['rajaongkir']['results'][$k]['costs']); $l++) {
-      echo "<option value='".$data['rajaongkir']['results'][$k]['costs'][$l]['cost'][0]['value']."' data-ongkir='Rp. ".number_format($data['rajaongkir']['results'][$k]['costs'][$l]['cost'][0]['value'],0,",",".")."' data-total='Rp. ".number_format($data['rajaongkir']['results'][$k]['costs'][$l]['cost'][0]['value']+$harga,0,",",".")."'>".$data['rajaongkir']['results'][$k]['costs'][$l]['service']."</option>";
-    }
+
+  if (count($data['rajaongkir']['results']) == 0 || !isset($data['rajaongkir']['results'][0]['costs'])) {
+    echo "<option>Layanan Tidak Ditemukan</option>";
   }
 
-//echo $data['rajaongkir']['results']['costs']['service'];
+  foreach ($data['rajaongkir']['results'][0]['costs'] as $key => $value) {
+    echo '<option value="' . $value['cost'][0]['value'] .
+      '" data-ongkir="' . format_currency($value['cost'][0]['value']) .
+      '" data-total="' . format_currency($value['cost'][0]['value']) .
+      '">' . $value['service'] . '</option>';
+  }
 }
-?>
 
+function format_currency($val = 0)
+{
+  return 'Rp. ' . number_format($val, 0, ',', '.');
+}

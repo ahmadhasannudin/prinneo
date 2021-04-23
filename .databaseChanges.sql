@@ -72,3 +72,11 @@ WHERE is_email_confirmed = false;
 
 alter table users
 	add confirmation_code varchar(255) null;
+
+alter table orders
+	add order_code varchar(255) not null after order_id;
+
+alter table orders modify order_name varchar(200) not null after order_date;
+
+create unique index orders_order_code_uindex
+	on orders (order_code);
