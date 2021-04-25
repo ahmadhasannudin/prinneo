@@ -113,25 +113,22 @@
                                     Swal.close();
                                     btn.prop('disabled', false);
 
-                                    var transactionData = data.data.transaction_data;
+                                    var transactionData = data.data.transaction_data,
+                                        dataPost = data.data.data_post;
                                     //midtrans payment snap
                                     snap.pay(data.data.token, {
 
                                         onSuccess: function(result) {
-                                            changeResult('success', result, transactionData);
-                                            console.log(result.status_message);
-                                            console.log(result);
-                                            $("#payment-form").submit();
+                                            changeResult('success', result, transactionDa, dataPostta);
+                                            return;
                                         },
                                         onPending: function(result) {
-                                            changeResult('pending', result, transactionData);
-                                            console.log(result.status_message);
-                                            $("#payment-form").submit();
+                                            changeResult('pending', result, transactionData, dataPost);
+                                            return;
                                         },
                                         onError: function(result) {
-                                            changeResult('error', result, transactionData);
-                                            console.log(result.status_message);
-                                            $("#payment-form").submit();
+                                            changeResult('error', result, transactionData, dataPost);
+                                            return;
                                         }
                                     });
                                 } else {
@@ -173,8 +170,7 @@
         });
     });
 
-    function changeResult(status, snap, data) {
-
+    function changeResult(status, snap, transactionData, dataPost) {
         Swal.showLoading();
 
         $.ajax({
@@ -182,7 +178,8 @@
             data: {
                 status: status,
                 snap: snap,
-                data: data
+                transactionData: transactionData,
+                dataPost: dataPost
             },
             url: "<?= base_url() . 'checkout/save_checkout'; ?>",
             dataType: "json",

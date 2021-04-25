@@ -136,13 +136,59 @@ class Checkout extends CI_Controller
     }
 
     $midtrans['data']['transaction_data'] = $transaction_data;
+    $midtrans['data']['data_post'] = $this->input->post();
     return resp(true, $midtrans['message'], $midtrans['data']);
   }
 
   function save_checkout()
   {
-    // print_r(json_decode($_POST));
-    print_r($this->input->post());
+    // print_r($this->input->post());
+    // $data['order_id'] = $this->input->post('dataPost')['order_id'];
+    $data['order'] = [
+      'order_code' => $this->input->post('snap')['order_id'],
+      'order_email' => $this->input->post('dataPost')['user_email'],
+      'order_phone' => $this->input->post('dataPost')['user_phone'],
+      'order_alamat' => $this->input->post('dataPost')['address'],
+      'order_kabupaten' => $this->input->post('dataPost')['kota'],
+      'order_provinsi' => $this->input->post('dataPost')['provinsi'],
+      'order_kurir' => $this->input->post('dataPost')['kurir'],
+      'order_kurir_service' => $this->input->post('dataPost')['layanan'],
+      'order_ongkir' => $this->input->post('dataPost')['layanan'],
+      'order_total' => $this->input->post('dataPost')['order_grand_total'],
+      'user_id' => '',
+      'order_status' => $this->input->post('snap')['status_code'],
+      'order_date' => $this->input->post('snap')['transaction_time'],
+      'order_name' => $this->input->post('dataPost')['user_email']
+    ];
+
+    $data['order_payment'] = [
+      'status_code' => $this->input->post('snap')['status_code'],
+      'status_message' => $this->input->post('snap')['status_message'],
+      'transaction_id' => $this->input->post('snap')['transaction_id'],
+      'order_code' => $this->input->post('snap')['order_id'],
+      'gross_amount' => $this->input->post('snap')['gross_amount'],
+      'payment_type' => $this->input->post('snap')['payment_type'],
+      'transaction_time' => $this->input->post('snap')['transaction_time'],
+      'transaction_status' => $this->input->post('snap')['transaction_status'],
+      'va_bank' => $this->input->post('snap')['va_numbers'][0]['bank'],
+      'va_number' => $this->input->post('snap')['va_numbers'][0]['va_number'],
+      'fraud_status' => $this->input->post('snap')['fraud_status'],
+      'pdf_url' => $this->input->post('snap')['pdf_url'],
+      'finish_redirect_url' => $this->input->post('snap')['finish_redirect_url']
+    ];
+
+    $data['order_details'] = [];
+    foreach ($this->input->post('dataPost')['order_product_id'] as $key => $value) {
+      $data['order_details'][] = [
+        'product_id' => $this->input->post('dataPost')['order_product_id'][$key],
+        'order_detail_qty' => $this->input->post('dataPost')['order_qty'][$key],
+        'order_detail_price' => $this->input->post('dataPost')['order_subtotal'][$key] / $this->input->post('dataPost')['order_qty'][$key],
+        'order_detail_subtotal' => $this->input->post('dataPost')['order_subtotal'][$key],
+        'order_detail_spesifikasi' => '',
+        'order_detail_date' => $this->input->post('snap')['transaction_time']
+      ];
+    }
+    $this->M_orders->insertOrders($data);
   }
 
   function add()

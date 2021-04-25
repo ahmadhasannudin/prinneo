@@ -80,3 +80,33 @@ alter table orders modify order_name varchar(200) not null after order_date;
 
 create unique index orders_order_code_uindex
 	on orders (order_code);
+
+-- midtrans payment 
+create table order_payment
+(
+	order_payment_id int,
+	order_id int not null,
+	order_code int not null,
+	status_code int null,
+	status_message varchar(255) null,
+	transaction_id varchar(255) null,
+	gross_amount int null,
+	payment_type varchar(255) null,
+	transaction_time datetime null,
+	transaction_status varchar(255) null,
+	va_bank varchar(255) null,
+	va_number varchar(255) null,
+	fraud_status varchar(255) null,
+	pdf_url varchar(255) null,
+	finish_redirect_url varchar(255) null
+);
+
+create unique index order_payment_order_payment_id_uindex
+	on order_payment (order_payment_id);
+
+alter table order_payment
+	add constraint order_payment_pk
+		primary key (order_payment_id);
+
+alter table order_payment modify order_payment_id int auto_increment;
+
