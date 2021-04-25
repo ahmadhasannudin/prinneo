@@ -188,7 +188,12 @@ class Checkout extends CI_Controller
         'order_detail_date' => $this->input->post('snap')['transaction_time']
       ];
     }
-    $this->M_orders->insertOrders($data);
+
+    if (!$this->M_orders->insertOrders($data)) {
+      return resp(false,  $this->M_orders->get_message());
+    }
+
+    return resp(true,  'success');
   }
 
   function add()
