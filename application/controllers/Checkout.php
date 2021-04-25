@@ -23,7 +23,7 @@ class Checkout extends CI_Controller
     $product_sub_categorys =  $this->M_product_sub_categorys->get_all()->result();
     $contacts              =  $this->M_contacts->get_all()->row();
     $faqs                  =  $this->M_faqs->get_all()->result();
-
+    $customer = [];
     foreach ($cart as $key => $value) {
       $customer = array(
         'nama_order' => $value['nama_order'],
@@ -61,8 +61,7 @@ class Checkout extends CI_Controller
   // proses checkout
   function proses_checkout()
   {
-
-    $params = array('server_key' => 'SB-Mid-server-iEy4HKvvHu22S303nrOSwkdx', 'production' => false);
+    $params = array('server_key' => getenv('MIDTRANS_SERVER_KEY'), 'production' => getenv('MIDTRANS_PRODUCTION_STATUS'));
     $this->load->library('midtrans');
     $this->midtrans->config($params);
 
@@ -73,15 +72,20 @@ class Checkout extends CI_Controller
     $valid->set_rules('user_phone', 'NO HP', 'required');
     $valid->set_rules('address', 'Alamat', 'required');
 
+    $valid->set_rules('provinsi', 'Provinsi', 'required');
+    $valid->set_rules('kota', 'Kota', 'required');
+    $valid->set_rules('kurir', 'Kurir', 'required');
+    $valid->set_rules('layanan', 'Layanan', 'required');
+
     if ($valid->run() == FALSE) {
       return resp(false,  validation_errors());
     }
-
     // Required
     $transaction_details = array(
       'order_id' => rand() . date('dmYHis'),
-      'gross_amount' => (int) $this->input->post('order_grand_total'), // no decimal allowed for creditcard
+      'gross_amount' => (int) $this->input->post('order_grand_total'),
     );
+
     $item_details = [];
 
     foreach ($this->input->post('order_product_id') as $key => $value) {
@@ -108,10 +112,7 @@ class Checkout extends CI_Controller
       'address' => $this->input->post('address')
     ];
 
-    // Data yang akan dikirim untuk request redirect_url.
     $credit_card['secure'] = true;
-    //ser save_card true to enable oneclick or 2click
-    //$credit_card['save_card'] = true;
 
     $time = time();
     $custom_expiry = array(
@@ -127,14 +128,21 @@ class Checkout extends CI_Controller
       'credit_card'        => $credit_card,
       'expiry'             => $custom_expiry
     );
-    // print_r($transaction_data);
-    // exit;
 
-    $snapToken = $this->midtrans->getSnapToken($transaction_data);
-    print_r($snapToken);
-    // print_r($transaction_details);
-    // print_r($item_details);
-    // print_r($this->input->post());
+    $midtrans = $this->midtrans->getSnapToken($transaction_data);
+
+    if (!$midtrans['status']) {
+      return resp(false, $midtrans['message']);
+    }
+
+    $midtrans['data']['transaction_data'] = $transaction_data;
+    return resp(true, $midtrans['message'], $midtrans['data']);
+  }
+
+  function save_checkout()
+  {
+    // print_r(json_decode($_POST));
+    print_r($this->input->post());
   }
 
   function add()

@@ -122,34 +122,31 @@ class Midtrans
 
 		curl_setopt_array($ch, $curl_options);
 
-		$result = curl_exec($ch);
+		$result = json_decode(curl_exec($ch));
 		$info = curl_getinfo($ch);
-		// curl_close($ch);
 
-		if ($result === FALSE) {
-			throw new Exception('CURL Error: ' . curl_error($ch), curl_errno($ch));
-		} else {
-			$result_array = json_decode($result);
-			if ($info['http_code'] != 201 && !in_array($result_array->status_code, array(200, 201, 202, 407))) {
-				$message = 'Midtrans Error (' . $info['http_code'] . '): '
-					. implode(',', $result_array->error_messages);
-				throw new Exception($message, $info['http_code']);
-			} else {
-				return $result_array;
-			}
+		if (!in_array($info['http_code'], array(200, 201, 202))) {
+			return  [
+				'status' => false,
+				'message' => $info['http_code'] . ' Failed try again later',
+				'data' => []
+			];
 		}
+
+		return  [
+			'status' => true,
+			'message' => 'success',
+			'data' =>  ['token' => $result->token]
+		];
 	}
 
 	public static function getSnapToken($params)
 	{
-
-		$result = Midtrans::post(
+		return Midtrans::post(
 			Midtrans::getSnapBaseUrl() . '/transactions',
 			Midtrans::$serverKey,
 			$params
 		);
-
-		return $result->token;
 	}
 
 	/**

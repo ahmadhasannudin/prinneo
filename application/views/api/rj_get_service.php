@@ -18,13 +18,13 @@ $response = curl_exec($curl);
 $err = curl_error($curl);
 curl_close($curl);
 if ($err) {
-  echo "<option>Layanan Tidak Ditemukan</option>";
+  echo '<option value="">Layanan Tidak Ditemukan</option>';
 } else {
 
   $data = json_decode($response, true);
 
   if (count($data['rajaongkir']['results']) == 0 || !isset($data['rajaongkir']['results'][0]['costs'])) {
-    echo "<option>Layanan Tidak Ditemukan</option>";
+    echo '<option value="">Layanan Tidak Ditemukan</option>';
   }
 
   foreach ($data['rajaongkir']['results'][0]['costs'] as $key => $value) {

@@ -38,14 +38,14 @@
           <div class="form-group col-md-6">
             <label for="inputState">Provinsi*</label>
             <select class="form-control rounded" name="provinsi" id="provinsi">
-              <option>Pilih Provinsi Anda</option>
+              <option value="">Pilih Provinsi Anda</option>
               <?php $this->load->view('api/rj_get_provinsi'); ?>
             </select>
           </div>
           <div class="form-group col-md-6">
             <label for="">Kabupaten*</label>
             <select class="form-control rounded" name="kota" id="kota">
-              <option>Pilih Kota Anda</option>
+              <option value="">Pilih Kota Anda</option>
             </select>
           </div>
         </div>
@@ -53,7 +53,7 @@
           <div class="form-group col-md-6">
             <label for="">Kurir</label>
             <select class="form-control rounded" name="kurir" id="courier">
-              <option>Pilih Kurir Anda</option>
+              <option value="">Pilih Kurir Anda</option>
               <option value="jne">JNE</option>
               <option value="pos">POS</option>
               <option value="tiki">TIKI</option>
@@ -65,7 +65,7 @@
           <div class="form-group col-md-6">
             <label for="">Layanan</label>
             <select class="form-control rounded" name="layanan" id="layanan">
-              <option>Pilih Layanan</option>
+              <option value="">Pilih Layanan</option>
             </select>
           </div>
         </div>

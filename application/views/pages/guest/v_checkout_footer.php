@@ -1,4 +1,5 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="<?= getenv('MIDTRANS_CLIENT_KEY'); ?>"></script>
 <script type="text/javascript">
     $('#provinsi').change(function() {
         $.post("<?php echo base_url(); ?>products/get_city/" + $('#provinsi').val(), function(obj) {
@@ -40,7 +41,6 @@
         var url = "<?php echo base_url(); ?>products/checkout_ongkir?origin=469&originType=city&destination=" + x + "&destinationType=city&berat=" + y + "&courier=" + z;
         $.post("<?php echo base_url(); ?>products/checkout_ongkir?origin=469&originType=city&destination=" + x + "&destinationType=city&berat=" + weight + "&courier=" + z + "&harga=" + harga,
             function(obj) {
-                console.log(obj);
                 $('#layanan').html(obj).trigger('change');
             });
     });
@@ -108,12 +108,32 @@
                             async: false,
 
                             success: function(data) {
+                                console.log(data);
                                 if (data.status) {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: data.message,
+                                    Swal.close();
+                                    btn.prop('disabled', false);
+
+                                    var transactionData = data.data.transaction_data;
+                                    //midtrans payment snap
+                                    snap.pay(data.data.token, {
+
+                                        onSuccess: function(result) {
+                                            changeResult('success', result, transactionData);
+                                            console.log(result.status_message);
+                                            console.log(result);
+                                            $("#payment-form").submit();
+                                        },
+                                        onPending: function(result) {
+                                            changeResult('pending', result, transactionData);
+                                            console.log(result.status_message);
+                                            $("#payment-form").submit();
+                                        },
+                                        onError: function(result) {
+                                            changeResult('error', result, transactionData);
+                                            console.log(result.status_message);
+                                            $("#payment-form").submit();
+                                        }
                                     });
-                                    window.location.href = "<?= base_url() . 'cart'; ?>";
                                 } else {
                                     Swal.fire({
                                         icon: 'error',
@@ -144,12 +164,65 @@
                                         text: 'Terjadi kesalahan saat menghubungkan ke server. ',
                                     });
                                 }
+                                btn.prop('disabled', false);
                             }
                         })
                     }
                 })
             }
-
         });
     });
+
+    function changeResult(status, snap, data) {
+
+        Swal.showLoading();
+
+        $.ajax({
+            type: "POST",
+            data: {
+                status: status,
+                snap: snap,
+                data: data
+            },
+            url: "<?= base_url() . 'checkout/save_checkout'; ?>",
+            dataType: "json",
+
+            success: function(data) {
+                console.log(data);
+                if (data.status) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: data.message,
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Failed',
+                        text: data.message,
+                    });
+                }
+            },
+            beforeSend: function() {},
+            complete: function(res) {
+                if (res.responseJSON === undefined) {
+                    Swal.close();
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status == '403') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Failed',
+                        text: 'Terjadi kesalahan saat menghubungkan ke server. Error : ' + textStatus,
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Failed',
+                        text: 'Terjadi kesalahan saat menghubungkan ke server. ',
+                    });
+                }
+            }
+        });
+    };
 </script>

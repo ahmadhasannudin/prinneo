@@ -27,7 +27,6 @@ class Cart extends CI_Controller
         'isi'                   =>  'pages/guest/v_cart',
         'product_categorys'     =>  $product_categorys,
         'product_sub_categorys' =>  $product_sub_categorys,
-
         'contacts'              =>  $contacts,
       );
 

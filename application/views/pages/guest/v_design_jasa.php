@@ -49,6 +49,7 @@
                Spesifikasi Produk
              </div>
              <div class="card-body">
+
                <?php echo $product_details->product_calc_html ?>
 
              </div>
@@ -122,7 +123,7 @@
                    <input type="hidden" name="berat-total" id="berat-total" value="<?php echo $product_details->product_weight ?>">
                    <input type="hidden" name="harga-total" id="harga-awal" value="<?php echo $product_details->product_start_price ?>">
                    <textarea class="form-control" rows="3" placeholder="Masukkan pesan Anda" name="product_spesifikasi" id="spesifikasi" hidden=""></textarea>
-                   <input type="hidden" name="price" id="price" value="">
+                   <input type="hidden" readonly name="price" id="price" value="">
                    <button type="submit" class="btn btn-success p-3">Add to Cart<i class="fa fa-arrow-right ml-2"></i></button>
                  </div>
                </div>
@@ -153,6 +154,10 @@
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
  <?php echo $product_details->product_calc_js ?>
  <script type="text/javascript">
+   $(document).ready(function() {
+     cek_harga();
+   })
+
    function formatNumber(num) {
      return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
    }

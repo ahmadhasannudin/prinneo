@@ -20,9 +20,11 @@ class Service extends CI_Controller
       'product_status !=' =>  '0'
     );
     $product_details       =  $this->M_products->get_conditions($product_datas)->row();
+
     $product_categorys     =  $this->M_product_categorys->get_all()->result();
     $product_sub_categorys =  $this->M_product_sub_categorys->get_all()->result();
     $contacts              =  $this->M_contacts->get_all()->row();
+
     $data  =
       array(
         'title'                 =>  'Jasa Desain',
