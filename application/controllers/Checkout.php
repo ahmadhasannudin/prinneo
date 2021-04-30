@@ -137,6 +137,7 @@ class Checkout extends CI_Controller
 
     $midtrans['data']['transaction_data'] = $transaction_data;
     $midtrans['data']['data_post'] = $this->input->post();
+
     return resp(true, $midtrans['message'], $midtrans['data']);
   }
 

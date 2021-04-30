@@ -53,6 +53,7 @@ class Service extends CI_Controller
       array(
         'title'                 =>  'Upload Desain',
         'isi'                   =>  'pages/guest/v_design_upload',
+        'pageFooter'            =>  'pages/guest/v_design_upload_footer',
         'product_details'       =>  $product_details,
         'product_categorys'     =>  $product_categorys,
         'product_sub_categorys' =>  $product_sub_categorys,

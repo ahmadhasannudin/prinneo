@@ -108,7 +108,6 @@
                             async: false,
 
                             success: function(data) {
-                                console.log(data);
                                 if (data.status) {
                                     Swal.close();
                                     btn.prop('disabled', false);
@@ -185,7 +184,6 @@
             dataType: "json",
 
             success: function(data) {
-                console.log(data);
                 if (data.status) {
                     Swal.fire({
                         icon: 'success',

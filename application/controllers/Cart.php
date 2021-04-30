@@ -32,6 +32,7 @@ class Cart extends CI_Controller
 
     $this->load->view("layouts/guest/wrapper", $data, false);
   }
+
   public function add_cart()
   {
     $valid = $this->form_validation;
@@ -98,6 +99,67 @@ class Cart extends CI_Controller
 
     return resp(true,  'success');
   }
+
+
+  public function add_cart_upload()
+  {
+    $valid = $this->form_validation;
+    $valid->set_error_delimiters('', "");
+    $valid->set_rules('nama_order', 'Nama Lengkap', 'required');
+    $valid->set_rules('nohp_order', 'No HP', 'required');
+    $valid->set_rules('email_order', 'email', 'required|valid_email');
+
+    if ($valid->run() == FALSE) {
+      return resp(false,  validation_errors());
+    }
+
+    $config['upload_path'] = './assets/images/tmp_cart';
+    $config['allowed_types'] = 'gif|jpg|png|jpeg|ai|cdr|pdf|svg';
+    $config['encrypt_name'] = true;
+    $config['max_size'] = 700000;
+
+    $this->load->library('upload', $config);
+    $this->upload->initialize($config);
+
+    $file_order = '';
+
+    if (isset($_FILES['file_order']['name']) and !empty($_FILES['file_order']['name'])) {
+      if (!$this->upload->do_upload('file_order')) {
+        return resp(false,  $this->upload->display_errors());
+      }
+
+      $file_order = $this->upload->data('file_name');
+    }
+
+    $data = array(
+      'nama_order'               => $this->input->post('nama_order'),
+      'nohp_order'               => $this->input->post('nohp_order'),
+      'email_order'              => $this->input->post('email_order'),
+      'jenis_order'              => $this->input->post('jenis_order'),
+      'product_category_id'      => $this->input->post('product_category_id'),
+      'product_sub_category_id'  => $this->input->post('product_sub_category_id'),
+      'product_image'            => $this->input->post('product_image'),
+      'product_spesifikasi'      => $this->input->post('product_spesifikasi'),
+      'kode_order'               => $this->input->post('kode_order'),
+      'file_order'               => $file_order,
+      'keterangan_order'         => $this->input->post('keterangan_order'),
+      'id'                       => $this->input->post('product_id'),
+      'name'                     => $this->input->post('product_name'),
+      'price'                    => $this->input->post('price'),
+      'qty'                      => $this->input->post('qty'),
+    );
+
+    $cart = $this->cart->contents();
+    $tmp_file = array(
+      'kode_order' => $data['kode_order'],
+      'file_tmp' => $file_order,
+    );
+    $this->cart->insert($data);
+    // $this->M_orders->add($tmp_file);
+
+    return resp(true,  'success');
+  }
+
   public function add()
   {
     $input                    = $this->input;
