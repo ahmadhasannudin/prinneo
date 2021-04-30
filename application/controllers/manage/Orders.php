@@ -1,6 +1,7 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-class Orders extends CI_Controller{
+defined('BASEPATH') or exit('No direct script access allowed');
+class Orders extends CI_Controller
+{
   public function __construct()
   {
     parent::__construct();
@@ -8,20 +9,18 @@ class Orders extends CI_Controller{
   }
   function index()
   {
-    $orders = $this->M_orders->get_all()->result();
-    $data  =
-    array(
-      'title'   =>  'Transaksi - Quick Corp',
-      'isi'     =>  'pages/manage/transaksi_v',
-      'orders'   =>  $orders
-    );
+    $data = [
+      'title' =>  'Management Transaksi',
+      'isi' =>  'pages/manage/order/index',
+      'pageFooter' =>  'pages/manage/order/indexFooter',
+    ];
     $this->load->view("layouts/manage/wrapper", $data, false);
   }
-  function add(){
+  function add()
+  {
     $valid = $this->form_validation;
     $i  = $this->input;
-    $valid->
-    set_rules(
+    $valid->set_rules(
       'slider_title',
       'slider_title',
       'required',
@@ -29,24 +28,20 @@ class Orders extends CI_Controller{
         'required'  =>  'Title slider harus diisi'
       )
     );
-    if ($valid->run()===false)
-    {
+    if ($valid->run() === false) {
       $data =
-      array(
-        'title'   =>  'orders Management Add - Quick Corp',
-        'isi'     =>  'pages/manage/orders_t',
-      );
+        array(
+          'title'   =>  'orders Management Add - Quick Corp',
+          'isi'     =>  'pages/manage/orders_t',
+        );
       $this->load->view("layouts/manage/wrapper", $data, false);
-    }
-    else
-    {
+    } else {
       $config['upload_path']          = './assets/images/img_orders/';
       $config['allowed_types']        = 'gif|jpg|png|jpeg';
       $config['max_size']             = 3000;
       $config['encrypt_name']         = TRUE;
       $this->upload->initialize($config);
-      if ( ! $this->upload->do_upload('slider_image'))
-      {
+      if (!$this->upload->do_upload('slider_image')) {
         $this->session->set_flashdata('notifikasi', '
           <div class="alert alert-danger alert-dismissible fade show position-fixed" role="alert" style="position: absolute; top: 0; right: 0; margin:50px;">
           <strong>Gagal Upload!</strong>.
@@ -55,9 +50,7 @@ class Orders extends CI_Controller{
           </button>
           </div>');
         redirect('/manage/orders/add');
-      }
-      else
-      {
+      } else {
         $data = array(
           'slider_title'       =>  $i->post('slider_title'),
           'slider_image'       =>  $this->upload->data('file_name'),
@@ -75,11 +68,11 @@ class Orders extends CI_Controller{
       }
     }
   }
-  function update($slider_id){
+  function update($slider_id)
+  {
     $valid = $this->form_validation;
     $i  = $this->input;
-    $valid->
-    set_rules(
+    $valid->set_rules(
       'slider_title',
       'slider_title',
       'required',
@@ -87,38 +80,32 @@ class Orders extends CI_Controller{
         'required'  =>  'Title slider harus diisi'
       )
     );
-    if ($valid->run()===false)
-    {
+    if ($valid->run() === false) {
       $condition_orders = array(
         'slider_id'  => $slider_id
       );
       $slider_details = $this->M_orders->get_conditions($condition_orders)->row();
       $data =
-      array(
-        'title'   =>  'orders Management Update - Quick Corp',
-        'isi'     =>  'pages/manage/orders_e',
-        'slider_details'  =>  $slider_details
-      );
+        array(
+          'title'   =>  'orders Management Update - Quick Corp',
+          'isi'     =>  'pages/manage/orders_e',
+          'slider_details'  =>  $slider_details
+        );
       $this->load->view("layouts/manage/wrapper", $data, false);
-    }
-    else
-    {
+    } else {
       $config['upload_path']          = './assets/images/img_orders/';
       $config['allowed_types']        = 'gif|jpg|png|jpeg';
       $config['max_size']             = 3000;
       $config['encrypt_name']         = TRUE;
       $this->upload->initialize($config);
-      if ( ! $this->upload->do_upload('slider_image'))
-      {
+      if (!$this->upload->do_upload('slider_image')) {
         $data = array(
           'slider_title'       =>  $i->post('slider_title'),
           'slider_image'       =>  $i->post('slider_image_old'),
           'slider_image_meta'  =>  url_title($i->post('slider_title')),
           'slider_id'          =>  $slider_id
         );
-      }
-      else
-      {
+      } else {
         $data = array(
           'slider_title'       =>  $i->post('slider_title'),
           'slider_image'       =>  $this->upload->data('file_name'),
@@ -128,7 +115,7 @@ class Orders extends CI_Controller{
         $condition_orders = array('slider_id'  => $slider_id);
         $details = $this->M_orders->get_conditions($condition_orders)->row();
         $path = $details->slider_image;
-        unlink('assets/images/img_orders/'.$path);
+        unlink('assets/images/img_orders/' . $path);
       }
       $this->M_orders->update($data);
       $this->session->set_flashdata('notifikasi', '
@@ -138,14 +125,15 @@ class Orders extends CI_Controller{
         <span aria-hidden="true">&times;</span>
         </button>
         </div>');
-      redirect('/manage/orders/update/'.$slider_id);
+      redirect('/manage/orders/update/' . $slider_id);
     }
   }
-  function delete($slider_id){
+  function delete($slider_id)
+  {
     $condition_orders = array('slider_id'  => $slider_id);
     $details = $this->M_orders->get_conditions($condition_orders)->row();
     $path = $details->slider_image;
-    unlink('assets/images/img_orders/'.$path);
+    unlink('assets/images/img_orders/' . $path);
     $this->M_orders->delete($slider_id);
     $this->session->set_flashdata('notifikasi', '
       <div class="alert alert-success alert-dismissible fade show position-fixed" role="alert" style="position: absolute; top: 0; right: 0; margin:50px;">

@@ -6,20 +6,20 @@
          <img class="img-fluid rounded-circle" src="<?php echo base_url() . 'assets/images/img_users/' . $user_details->user_photo; ?>" alt="profil-user">
          <h5 class="nama-widget"><?php echo $user_details->user_name; ?></h5>
        </center>
-       <hr>
-       <p class="alamat-widget"><i class="fas fa-map-marker-alt"></i> <?php echo $user_details->address_name ?></p>
+       <!-- <hr> -->
+       <!-- <p class="alamat-widget"><i class="fas fa-map-marker-alt"></i> <?php echo $user_details->address_name ?></p> -->
        <center>
-         <?php if ($user_details->address_id == 0) : ?>
+         <!-- <?php if ($user_details->address_id == 0) : ?>
            <a type="button" class="btn btn-secondary btn-widget" href="<?php echo base_url() . 'user/alamat/tambah' ?>">Tambahkan Alamat</a>
          <?php else : ?>
            <a type="button" class="btn btn-secondary btn-widget" href="<?php echo base_url() . 'user/alamat/edit' ?>">Ubah Alamat</a>
-         <?php endif ?>
+         <?php endif ?> -->
        </center>
        <hr>
        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-         <a class="nav-link" href="<?php echo base_url() . 'profil/history' ?>" <?php if ($this->uri->segment(2) == 'history') : ?> style="background-color: #fdd400" <?php endif ?>>Transaksi</a>
+         <!-- <a class="nav-link" href="<?php echo base_url() . 'profil/history' ?>" <?php if ($this->uri->segment(2) == 'history') : ?> style="background-color: #fdd400" <?php endif ?>>Transaksi</a>
          <a class="nav-link" href="<?php echo base_url() . 'profil/saran' ?>" <?php if ($this->uri->segment(2) == 'saran') : ?> style="background-color: #fdd400" <?php endif ?>>Kritik & Saran</a>
-         <a class="nav-link" href="<?php echo base_url() . 'profil/testimoni' ?>" <?php if ($this->uri->segment(2) == 'testimoni') : ?> style="background-color: #fdd400" <?php endif ?>>Testimoni</a>
+         <a class="nav-link" href="<?php echo base_url() . 'profil/testimoni' ?>" <?php if ($this->uri->segment(2) == 'testimoni') : ?> style="background-color: #fdd400" <?php endif ?>>Testimoni</a> -->
          <a class="nav-link" href="<?php echo base_url() . 'login/logout' ?>">Logout</a>
        </div>
      </div>

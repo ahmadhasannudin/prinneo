@@ -142,8 +142,8 @@ class Checkout extends CI_Controller
 
   function save_checkout()
   {
-    // print_r($this->input->post());
-    // $data['order_id'] = $this->input->post('dataPost')['order_id'];
+
+    // data order
     $data['order'] = [
       'order_code' => $this->input->post('snap')['order_id'],
       'order_email' => $this->input->post('dataPost')['user_email'],
@@ -161,6 +161,7 @@ class Checkout extends CI_Controller
       'order_name' => $this->input->post('dataPost')['user_email']
     ];
 
+    // data midtrans payment
     $data['order_payment'] = [
       'status_code' => $this->input->post('snap')['status_code'],
       'status_message' => $this->input->post('snap')['status_message'],
@@ -177,6 +178,7 @@ class Checkout extends CI_Controller
       'finish_redirect_url' => $this->input->post('snap')['finish_redirect_url']
     ];
 
+    // data order item / order details
     $data['order_details'] = [];
     foreach ($this->input->post('dataPost')['order_product_id'] as $key => $value) {
       $data['order_details'][] = [

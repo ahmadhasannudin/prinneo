@@ -72,14 +72,9 @@
 								<br>
 								<label id="upload_surat"></label>
 							</div>
-							<div class="col">
-								<div class="float-right">
-									<i class="filesize">Max file size 5 MB</i>
-									<div class="fileUpload btn btn-karir btn-sm">
-										<span><i class="fas fa-plus"></i></span>
-										<input type="file" class="upload" id="surat_lamar" name="">
-									</div>
-								</div>
+							<div class="form-group col">
+								<input type="file" class="form-control" id="surat_lamar" name="surat_lamar">
+								<small class="form-text text-muted">Max file size 3 MB</small>
 							</div>
 						</div>
 
@@ -89,14 +84,9 @@
 								<br>
 								<label id="upload_doc"></label>
 							</div>
-							<div class="col">
-								<div class="float-right">
-									<i class="filesize">Max file size 1 MB</i>
-									<div class="fileUpload btn btn-karir btn-sm">
-										<span><i class="fas fa-plus"></i></span>
-										<input type="file" id="doc_lamar" class="upload" name="">
-									</div>
-								</div>
+							<div class="form-group col">
+								<input type="file" class="form-control" id="doc_lamar" name="doc_lamar">
+								<small class="form-text text-muted">Max file size 1 MB</small>
 							</div>
 						</div>
 

@@ -107,8 +107,42 @@ class About extends CI_Controller
       return resp(false,  validation_errors());
     }
 
+    $config['upload_path'] = './assets/career/';
+    $config['allowed_types'] = 'gif|jpg|png|jpeg|doc|docx|pdf';
+    $config['encrypt_name'] = true;
+
+    $surat_lamar = '';
+    if (!isset($_FILES['surat_lamar']['name']) or empty($_FILES['surat_lamar']['name'])) {
+      return resp(false,  'Tolong input surat lamaran');
+    }
+
+    $config['max_size'] = 3000;
+    $this->load->library('upload', $config);
+    $this->upload->initialize($config);
+    if (!$this->upload->do_upload('surat_lamar')) {
+      return resp(false,  $this->upload->display_errors());
+    }
+    $surat_lamar = $this->upload->data('file_name');
+
+    $doc_lamar = '';
+    if (!isset($_FILES['doc_lamar']['name']) or empty($_FILES['doc_lamar']['name'])) {
+      return resp(false,  'Tolong input dokumen lamaran');
+    }
+
+    $config['max_size'] = 3000;
+    $this->load->library('upload', $config);
+    $this->upload->initialize($config);
+
+    if (!$this->upload->do_upload('doc_lamar')) {
+      return resp(false,  $this->upload->display_errors());
+    }
+    $doc_lamar = $this->upload->data('file_name');
+
+
     $data = $this->input->post();
     $data['career_id'] = $id;
+    $data['surat_lamaran'] = $surat_lamar;
+    $data['document_lamaran'] = $doc_lamar;
 
     if (!$this->MCareerApplicant->apply($data)) {
       return resp(false,  $this->MCareerApplicant->get_message());

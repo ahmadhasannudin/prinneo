@@ -310,11 +310,11 @@ class Login extends CI_Controller
                 $email_user = $i->post('user_email');
                 $password_user = md5($i->post('user_password'));
                 $check_login = $this->M_login->login($email_user, $password_user);
-                // echo "<pre>";
-                // print_r($email_user);
-                // print_r($password_user);
-                // print_r($check_login);
-                // exit();
+
+                if ($check_login->is_email_confirmed == 0) {
+                    return $this->emailNotActivated($email_user);
+                }
+
                 if (!empty($check_login)) {
                     $this->session->set_userdata('email_user', $email_user);
                     $this->session->set_userdata('user_id', $check_login->user_id);
@@ -431,6 +431,20 @@ class Login extends CI_Controller
             'contacts' => $this->M_contacts->get_all()->row(),
             'product_categorys' => $this->M_product_categorys->get_all()->result(),
             'product_sub_categorys' => $this->M_product_sub_categorys->get_all()->result()
+        ];
+        $this->load->view("layouts/guest/wrapper", $data, false);
+    }
+
+
+    public function emailNotActivated($email_user)
+    {
+        $data = [
+            'isi' => 'pages/guest/v_forgot_pass',
+            'title' => 'Login',
+            'contacts' => $this->M_contacts->get_all()->row(),
+            'product_categorys' => $this->M_product_categorys->get_all()->result(),
+            'product_sub_categorys' => $this->M_product_sub_categorys->get_all()->result(),
+            'email_user' => $email_user
         ];
         $this->load->view("layouts/guest/wrapper", $data, false);
     }
