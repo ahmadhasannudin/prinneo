@@ -439,7 +439,7 @@ class Login extends CI_Controller
     public function emailNotActivated($email_user)
     {
         $data = [
-            'isi' => 'pages/guest/v_forgot_pass',
+            'isi' => 'pages/guest/v_email_is_not_activated',
             'title' => 'Login',
             'contacts' => $this->M_contacts->get_all()->row(),
             'product_categorys' => $this->M_product_categorys->get_all()->result(),
