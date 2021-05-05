@@ -117,8 +117,8 @@ class Checkout extends CI_Controller
     $time = time();
     $custom_expiry = array(
       'start_time' => date("Y-m-d H:i:s O", $time),
-      'unit' => 'minute',
-      'duration'  => 2
+      'unit' => 'day',
+      'duration'  => 7
     );
 
     $transaction_data = array(
@@ -143,7 +143,6 @@ class Checkout extends CI_Controller
 
   function save_checkout()
   {
-
     // data order
     $data['order'] = [
       'order_code' => $this->input->post('snap')['order_id'],
@@ -196,6 +195,7 @@ class Checkout extends CI_Controller
       return resp(false,  $this->M_orders->get_message());
     }
 
+    $this->cart->destroy();
     return resp(true,  'success');
   }
 
@@ -242,9 +242,7 @@ class Checkout extends CI_Controller
         'order_total'           =>  $i->post('order_total'),
       );
       $this->session->set_userdata($data);
-      echo "<pre>";
-      print_r($data);
-      exit();
+
       $this->session->set_flashdata('success', '<center>Berhasil</center>');
       redirect('/metode-pembayaran');
     }

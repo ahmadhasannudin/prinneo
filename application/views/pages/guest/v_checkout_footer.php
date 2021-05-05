@@ -189,6 +189,7 @@
                         icon: 'success',
                         title: data.message,
                     });
+                    window.location.href = '<?= base_url(); ?>';
                 } else {
                     Swal.fire({
                         icon: 'error',

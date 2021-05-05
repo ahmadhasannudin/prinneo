@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Blogs extends CI_Controller{
+class Blogs extends CI_Controller
+{
 
   public function __construct()
   {
@@ -22,15 +23,15 @@ class Blogs extends CI_Controller{
     $blog_categorys        =  $this->M_blog_categorys->get_all()->result();
     $contacts              =  $this->M_contacts->get_all()->row();
     $data  =
-    array(
-      'title'                 =>  'Blogs | Prinneo',
-      'isi'                   =>  'pages/guest/v_blogs',
-      'product_categorys'     =>  $product_categorys,
-      'product_sub_categorys' =>  $product_sub_categorys,
-      'blog_list'             =>  $blog_list,
-      'blog_categorys'        =>  $blog_categorys,
-      'contacts'              =>  $contacts,
-    );
+      array(
+        'title'                 =>  'Blogs | Prinneo',
+        'isi'                   =>  'pages/guest/v_blogs',
+        'product_categorys'     =>  $product_categorys,
+        'product_sub_categorys' =>  $product_sub_categorys,
+        'blog_list'             =>  $blog_list,
+        'blog_categorys'        =>  $blog_categorys,
+        'contacts'              =>  $contacts,
+      );
     $this->load->view("layouts/guest/wrapper", $data, false);
   }
   function categorys($blog_category_slug)
@@ -41,15 +42,15 @@ class Blogs extends CI_Controller{
     $blog_categorys        =  $this->M_blog_categorys->get_all()->result();
     $contacts              =  $this->M_contacts->get_all()->row();
     $data  =
-    array(
-      'title'                 =>  'Blogs | Prinneo',
-      'isi'                   =>  'pages/guest/v_blogs',
-      'product_categorys'     =>  $product_categorys,
-      'product_sub_categorys' =>  $product_sub_categorys,
-      'blog_list'             =>  $blog_list,
-      'blog_categorys'        =>  $blog_categorys,
-      'contacts'              =>  $contacts,
-    );
+      array(
+        'title'                 =>  'Blogs | Prinneo',
+        'isi'                   =>  'pages/guest/v_blogs',
+        'product_categorys'     =>  $product_categorys,
+        'product_sub_categorys' =>  $product_sub_categorys,
+        'blog_list'             =>  $blog_list,
+        'blog_categorys'        =>  $blog_categorys,
+        'contacts'              =>  $contacts,
+      );
     $this->load->view("layouts/guest/wrapper", $data, false);
   }
   public function detail($blog_slug)
@@ -61,20 +62,17 @@ class Blogs extends CI_Controller{
     $blog_prev             =  $this->M_blogs->get_prev($blog_detail->blog_id)->row();
     $contacts              =  $this->M_contacts->get_all()->row();
     $data  =
-    array(
-      'title'                 =>  $blog_detail->blog_title,
-      'isi'                   =>  'pages/guest/v_blog_details',
-      'product_categorys'     =>  $product_categorys,
-      'product_sub_categorys' =>  $product_sub_categorys,
-      'blog_next'             =>  $blog_next,
-      'blog_prev'             =>  $blog_prev,
-      'blog_detail'           =>  $blog_detail,
-      'contacts'              =>  $contacts,
-    );
-    // echo "<pre>";
-    // print_r($data);
-    // exit();
+      array(
+        'title'                 =>  $blog_detail->blog_title,
+        'isi'                   =>  'pages/guest/v_blog_details',
+        'product_categorys'     =>  $product_categorys,
+        'product_sub_categorys' =>  $product_sub_categorys,
+        'blog_next'             =>  $blog_next,
+        'blog_prev'             =>  $blog_prev,
+        'blog_detail'           =>  $blog_detail,
+        'contacts'              =>  $contacts,
+      );
+
     $this->load->view("layouts/guest/wrapper", $data, false);
   }
-
 }
