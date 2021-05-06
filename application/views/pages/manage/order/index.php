@@ -9,9 +9,13 @@
             <div class="col-sm-2">
                 <select name="search_transaction_status" class="custom-select custom-select float-right mr-3" style="width: 100px;" id="search_transaction_status">
                     <option value="">All</option>
-                    <option value="pending">Pending</option>
-                    <option value="success">Success</option>
-                    <option value="failed">Failed</option>
+                    <option value="pending">pending</option>
+                    <option value="cancel">cancel</option>
+                    <option value="deny">deny</option>
+                    <option value="expire">expire</option>
+                    <option value="refund">refund</option>
+                    <option value="settlement">settlement</option>
+                    <option value="capture">capture</option>
                 </select>
             </div>
         </div>

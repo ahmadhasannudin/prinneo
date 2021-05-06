@@ -96,6 +96,20 @@ class Orders extends CI_Controller
     );
 
     $this->db->where('order_code', $orderCode);
-    $this->db->update('order_payment', $data);
+    if (!$this->db->update('order_payment', $data)) {
+      $this->output
+        ->set_content_type('application/json')
+        ->set_status_header(500)
+        ->set_output(json_encode(array(
+          'message' => 'Error 500',
+        )));
+    };
+
+    return $this->output
+      ->set_status_header('200')
+      ->set_content_type('application/json')
+      ->set_output(json_encode(array(
+        'message' => 'Success',
+      )));
   }
 }
