@@ -113,7 +113,7 @@ class Midtrans
 			$curl_options[CURLOPT_POST] = 1;
 
 			if ($data_hash) {
-				$body = json_encode($data_hash);
+				$body = json_encode($data_hash, true);
 				$curl_options[CURLOPT_POSTFIELDS] = $body;
 			} else {
 				$curl_options[CURLOPT_POSTFIELDS] = '';

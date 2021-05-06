@@ -51,6 +51,17 @@ class M_orders extends CI_Model
 
   public function insertOrders($data)
   {
+    $checkRows = $this->db->get_where('orders', array(
+      'order_code' => $data['order']['order_code']
+    ));
+
+    $count = $checkRows->num_rows();
+
+    if ($count > 1) {
+      $this->message = 'Data added successfully.';
+      return true;
+    }
+
     $this->db->trans_begin();
 
     //insert orders

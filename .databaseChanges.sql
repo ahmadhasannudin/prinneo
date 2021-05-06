@@ -116,3 +116,7 @@ alter table
 modify
   order_payment_id int auto_increment;
 drop index orders_order_code_uindex on orders;
+alter table
+  order_details
+add
+  jenis_order varchar(255) null;

@@ -17,7 +17,6 @@ class Checkout extends CI_Controller
 
   function index()
   {
-
     $cart = $this->cart->contents();
     $product_categorys     =  $this->M_product_categorys->get_all()->result();
     $product_sub_categorys =  $this->M_product_sub_categorys->get_all()->result();
@@ -104,12 +103,25 @@ class Checkout extends CI_Controller
       'name' => 'ongkir'
     ];
 
+    $shipping_address = [
+      'first_name'   => $this->input->post('user_name'),
+      'last_name'    => $this->input->post('user_name'),
+      'address'      => $this->input->post('address'),
+      'city'         => $this->input->post('provinsi')
+        . ',' . $this->input->post('kota'),
+      'postal_code'  => "-",
+      'phone'        => $this->input->post('user_phone'),
+      'country_code' => 'IDN'
+    ];
+
     $customer_details = [
       'first_name' => $this->input->post('user_name'),
-      'last_name' => "-",
+      'last_name' => $this->input->post('user_name'),
       'email' => $this->input->post('user_email'),
       'phone' => $this->input->post('user_phone'),
-      'address' => $this->input->post('address')
+      'address' => $this->input->post('address'),
+      'shipping_address' => $shipping_address,
+      'billing_address' => $shipping_address
     ];
 
     $credit_card['secure'] = true;
@@ -137,7 +149,6 @@ class Checkout extends CI_Controller
 
     $midtrans['data']['transaction_data'] = $transaction_data;
     $midtrans['data']['data_post'] = $this->input->post();
-
     return resp(true, $midtrans['message'], $midtrans['data']);
   }
 
@@ -187,7 +198,8 @@ class Checkout extends CI_Controller
         'order_detail_price' => $this->input->post('dataPost')['order_subtotal'][$key] / $this->input->post('dataPost')['order_qty'][$key],
         'order_detail_subtotal' => $this->input->post('dataPost')['order_subtotal'][$key],
         'order_detail_spesifikasi' => '',
-        'order_detail_date' => $this->input->post('snap')['transaction_time']
+        'order_detail_date' => $this->input->post('snap')['transaction_time'],
+        'jenis_order' => $this->input->post('dataPost')['jenis_order'][$key]
       ];
     }
 

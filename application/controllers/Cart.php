@@ -178,7 +178,6 @@ class Cart extends CI_Controller
       'price'                    => $this->input->post('price'),
       'qty'                      => $this->input->post('qty'),
     );
-
     $cart = $this->cart->contents();
     $tmp_file = array(
       'kode_order' => $data['kode_order'],

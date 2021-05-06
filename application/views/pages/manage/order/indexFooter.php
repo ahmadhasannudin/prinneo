@@ -11,7 +11,7 @@
         serverSide: true,
         // ordering: false,
         ajax: {
-            url: "<?= base_url(); ?>/manage/karir/dataTableIndex",
+            url: "<?= base_url(); ?>manage/orders/datatable",
             type: 'POST',
             data: function(d) {
                 d.is_active = $('#search_is_active').val()
@@ -25,26 +25,35 @@
                 className: 'text-center'
             },
             {
-                data: 'title',
+                data: 'order_code',
                 className: 'text-left'
             },
             {
-                data: 'is_active',
-                className: 'text-center',
+                data: 'order_name',
+                className: 'text-left'
+            },
+            {
+                data: 'order_phone',
+                className: 'text-left',
                 render: function(data, type, row, btn) {
-                    let label = `<span class="badge badge-success">Active</span>`;
-                    if (data == 0) {
-                        label = `<span class="badge badge-danger">Off</span>`;
-                    }
-                    return label;
+                    return '+62 - ' + data;
                 }
             },
             {
-                data: 'applicant',
-                className: 'text-center'
+                data: 'transaction_status',
+                className: 'text-center',
+                render: function(data, type, row, btn) {
+                    if (data == 'pending') {
+                        return `<span class="badge badge-info">Pending</span>`;
+                    };
+                    if (data == 'pending') {
+                        return `<span class="badge badge-danger">Expired</span>`;
+                    }
+                    return `<span class="badge badge-success">Success</span>`;
+                }
             },
             {
-                data: 'career_id',
+                data: 'order_id',
                 className: 'text-center',
                 render: function(data, type, row, btn) {
                     return '<a href="<?= base_url(); ?>/manage/karir/edit/' + data + '" class="btn btn-sm btn-outline-warning mr-1"> <i class="fas fa-edit"></i></a>' +

@@ -1,8 +1,8 @@
 <script>
-    $('#form-konfirmasi').submit(function(e) {
+    $('#btn-add-to-cart').click(function(e) {
         e.preventDefault();
         let btn = $(this),
-            form = $('#form-konfirmasi');
+            form = $('#form-harga');
         isiForm = new FormData(form[0]);
         swal.fire({
             title: 'Are you sure?',

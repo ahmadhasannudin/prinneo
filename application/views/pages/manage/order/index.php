@@ -14,10 +14,11 @@
             <thead>
                 <tr>
                     <th width="80px">No</th>
-                    <th class="text-center">Title</th>
-                    <th>Status</th>
-                    <th>Applicant</th>
-                    <th>Action</th>
+                    <th class="text-center">Order Code</th>
+                    <th class="text-center">Name</th>
+                    <th class="text-center">Phone Number</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Action</th>
                 </tr>
             </thead>
             <tbody>

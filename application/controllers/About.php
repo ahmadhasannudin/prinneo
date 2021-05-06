@@ -39,7 +39,6 @@ class About extends CI_Controller
       exit('No direct script access allowed');
     }
 
-
     return $this->output->set_output($this->sdatatable->set_tabel('career c')
       ->set_kolom("c.career_id,
               c.title,
