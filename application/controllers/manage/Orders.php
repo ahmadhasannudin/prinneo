@@ -68,4 +68,34 @@ class Orders extends CI_Controller
     }
     return resp(true, 'success', $data);
   }
+
+  public function midtransNotification()
+  {
+
+    $params = array('server_key' => getenv('MIDTRANS_SERVER_KEY'), 'production' => getenv('MIDTRANS_PRODUCTION_STATUS'));
+    $this->load->library('midtrans');
+    $this->midtrans->config($params);
+
+    $json = json_decode(file_get_contents('php://input'), true);
+
+    $orderCode = $json['order_id'];
+
+    $checkRows = $this->db->get_where('order_payment', array(
+      'order_code' => $orderCode
+    ));
+
+    $count = $checkRows->num_rows();
+
+    if ($count = 0) {
+      return;
+    }
+
+    $data = array(
+      'transaction_status' => $json['transaction_status'],
+      'status_code' => $json['status_code']
+    );
+
+    $this->db->where('order_code', $orderCode);
+    $this->db->update('order_payment', $data);
+  }
 }

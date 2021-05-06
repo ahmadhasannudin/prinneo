@@ -120,3 +120,7 @@ alter table
   order_details
 add
   jenis_order varchar(255) null;
+alter table
+  order_payment
+modify
+  order_code varchar(255) not null;
