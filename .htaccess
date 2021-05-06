@@ -1,19 +1,7 @@
-opment
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L]
 
-APP_URL = 'http://demo.prinneo.com'
-
-#google
-CLIENT_ID = '929648369556-athpkjoip792ajvr801eu2ndha3msukg.apps.googleusercontent.com'
-CLIENT_SECRET = 'y8kagS2jvAYyn9qa7PTZQ3R3'
-
-#midtrans
-MIDTRANS_CLIENT_KEY = "SB-Mid-client-7IBxAPOvMLb49KyD"
-MIDTRANS_SERVER_KEY = "SB-Mid-server-Ss1A-Tp__KXFtfCzqkjvft4P"
-MIDTRANS_PRODUCTION_STATUS = 0
-
-#database
-DB_CONNECTION=mysqli
-DB_HOST=localhost
-DB_DATABASE=u4987626_demo
-DB_USERNAME=u4987626_hayren
-DB_PASSWORD=qweasdzxc123
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
