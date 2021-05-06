@@ -23,7 +23,7 @@ class Orders extends CI_Controller
       exit('No direct script access allowed');
     }
 
-    return $this->output->set_output($this->sdatatable->set_tabel('orders o')
+    $datatable =  $this->sdatatable->set_tabel('orders o')
       ->set_kolom("
       o.order_id,
       o.order_code,
@@ -45,8 +45,27 @@ class Orders extends CI_Controller
         'order_payment op',
         'op.order_id = o.order_id',
         'left'
-      )
-      ->order_by('o.order_id', 'DESC')
-      ->get_datatable());
+      );
+
+    if ($this->input->post('transaction_status') != null) {
+      $datatable->cari_perkolom_where('op.transaction_status', $this->input->post('transaction_status'));
+    }
+
+    $datatable->order_by('o.order_id', 'DESC');
+    return $this->output->set_output($datatable->get_datatable());
+  }
+
+  public function getDetailOrder()
+  {
+    if (!$this->input->is_ajax_request()) {
+      exit('No direct script access allowed');
+    }
+
+    $data = $this->M_orders->getDetailOrder($this->input->get('orderID'));
+
+    if (empty($data)) {
+      return resp(false,  'Order Not Found');
+    }
+    return resp(true, 'success', $data);
   }
 }

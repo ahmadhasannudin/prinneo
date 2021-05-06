@@ -89,8 +89,8 @@
                 <input type="hidden" name="order_product_id[]" value="<?= $value['id']; ?>" readonly>
                 <input type="hidden" name="order_name[]" value="<?= $value['name']; ?>" readonly>
                 <input type="hidden" name="order_qty[]" value="<?= $value['qty']; ?>" readonly>
-                <input type="hidden" name="order_subtotal[]" value="<?= $value['subtotal']; ?>" readonly>
-                <input type="text" name="jenis_order[]" value="<?= $value['jenis_order']; ?>" readonly>
+                <input type="hidden" name="order_subtotal[]" value="<?= $value['subtotal'] / $value['qty']; ?>" readonly>
+                <input type="hidden" name="jenis_order[]" value="<?= $value['jenis_order']; ?>" readonly>
                 <tr>
                   <td><img width="150" class="img-fluid" src="<?php echo base_url('assets/images/img_products/' . $value['product_image']); ?>" alt=""></td>
                   <td><?php echo $value['name'] ?></td>

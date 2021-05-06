@@ -89,4 +89,32 @@ class M_orders extends CI_Model
       return true;
     }
   }
+
+  public function  getDetailOrder($orderID)
+  {
+    $data['order'] = $this->db->select('*')
+      ->from('orders')
+      ->where('order_id', $orderID)
+      ->get()
+      ->row();
+
+    if (empty($data['order'])) {
+      return [];
+    }
+
+    $data['payment'] = $this->db->select('*')
+      ->from('order_payment')
+      ->where('order_id', $orderID)
+      ->get()
+      ->row();
+
+
+    $data['detail'] = $this->db->select('*')
+      ->from('order_details')
+      ->where('order_id', $orderID)
+      ->get()
+      ->result_array();
+
+    return $data;
+  }
 }
