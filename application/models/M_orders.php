@@ -111,6 +111,7 @@ class M_orders extends CI_Model
 
     $data['detail'] = $this->db->select('*')
       ->from('order_details')
+      ->join('products', 'order_details.product_id = products.product_id', 'left')
       ->where('order_id', $orderID)
       ->get()
       ->result_array();

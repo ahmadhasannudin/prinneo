@@ -38,7 +38,7 @@
                             v.payment.transaction_status == 'capture') {
                             transaction_status = `<span class="badge badge-success">${v.payment.transaction_status}</span>`;
                         }
-                        $('#section-order-details [name="transaction_status"]').html(transaction_status);
+                        $('#section-payment-information [name="transaction_status"]').html(transaction_status);
 
                         $('#section-order-details [name="order_code"]').html(v.order.order_code);
                         $('#section-order-details [name="payment_type"]').html(v.payment.payment_type);
