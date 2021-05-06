@@ -2,7 +2,6 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h1 class="h2"><?= $title; ?></h1>
     </div>
-
     <div class="table-responsive">
         <div class="form-group row">
             <label for="staticEmail" class="col-sm-10 col-form-label text-right">Status</label>
